@@ -14,6 +14,7 @@ public class ThirdPersonShooterController : MonoBehaviour
     [SerializeField] private LayerMask aimColliderLayerMask = new LayerMask();
     [SerializeField] private Transform debugTransform;
     [SerializeField] private Transform bulletProjectile;
+    [SerializeField] private Transform gunFire;
     [SerializeField] private Transform spawnBulletPosition;
 
     private StarterAssetsInputs starterAssetsInputs;
@@ -66,6 +67,7 @@ public class ThirdPersonShooterController : MonoBehaviour
         {
             Vector3 aimDirection = (mouseWorldPosition - spawnBulletPosition.position).normalized;
             Instantiate(bulletProjectile, spawnBulletPosition.position, Quaternion.LookRotation(aimDirection, Vector3.up));
+            Instantiate(gunFire, spawnBulletPosition.position, Quaternion.LookRotation(aimDirection, Vector3.up));
             starterAssetsInputs.shoot = false;
         }
     }
