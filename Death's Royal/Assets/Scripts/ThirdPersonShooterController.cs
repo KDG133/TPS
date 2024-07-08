@@ -5,9 +5,11 @@ using Cinemachine;
 using StarterAssets;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
+using UnityEngine.Animations.Rigging;
 
 public class ThirdPersonShooterController : MonoBehaviour
 {
+    [SerializeField] private Rig aimRig;
     [SerializeField] private CinemachineVirtualCamera aimVirtualCamera;
     [SerializeField] private GameObject Crosshair;
     [SerializeField] private float normalSensitivity;
@@ -22,6 +24,7 @@ public class ThirdPersonShooterController : MonoBehaviour
     private StarterAssetsInputs starterAssetsInputs;
     private ThirdPersonController thirdPersonController;
     private Animator animator;
+    private float aimRigWeight;
     [SerializeField] private bool canFire = true;
 
     private void Awake()
@@ -46,6 +49,7 @@ public class ThirdPersonShooterController : MonoBehaviour
         if (starterAssetsInputs.aim)
         {
             Crosshair.SetActive(true);
+            aimRigWeight = 1f;
             aimVirtualCamera.gameObject.SetActive(true);
             thirdPersonController.SetSensitivity(aimSensitivity);
             thirdPersonController.SetRotateOnMove(false);
@@ -59,12 +63,14 @@ public class ThirdPersonShooterController : MonoBehaviour
         }
         else
         {
+            aimRigWeight = 0f;
             Crosshair.SetActive(false);
             aimVirtualCamera.gameObject.SetActive(false);
             thirdPersonController.SetSensitivity(normalSensitivity);
             thirdPersonController.SetRotateOnMove(true);
             animator.SetLayerWeight(1, Mathf.Lerp(animator.GetLayerWeight(1), 0f, Time.deltaTime * 10f));
         }
+        aimRig.weight = Mathf.Lerp(aimRig.weight, aimRigWeight, Time.deltaTime * 20f);
 
         if (starterAssetsInputs.shoot)
         {
