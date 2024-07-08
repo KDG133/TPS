@@ -4,6 +4,7 @@ using UnityEngine;
 using Cinemachine;
 using StarterAssets;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 
 public class ThirdPersonShooterController : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class ThirdPersonShooterController : MonoBehaviour
     [SerializeField] private GameObject Crosshair;
     [SerializeField] private float normalSensitivity;
     [SerializeField] private float aimSensitivity;
+    [SerializeField] private float fireRate; //for test
     [SerializeField] private LayerMask aimColliderLayerMask = new LayerMask();
     [SerializeField] private Transform debugTransform;
     [SerializeField] private Transform bulletProjectile;
@@ -20,6 +22,7 @@ public class ThirdPersonShooterController : MonoBehaviour
     private StarterAssetsInputs starterAssetsInputs;
     private ThirdPersonController thirdPersonController;
     private Animator animator;
+    [SerializeField] private bool canFire = true;
 
     private void Awake()
     {
@@ -65,10 +68,28 @@ public class ThirdPersonShooterController : MonoBehaviour
 
         if (starterAssetsInputs.shoot)
         {
-            Vector3 aimDirection = (mouseWorldPosition - spawnBulletPosition.position).normalized;
-            Instantiate(bulletProjectile, spawnBulletPosition.position, Quaternion.LookRotation(aimDirection, Vector3.up));
-            Instantiate(gunFire, spawnBulletPosition.position, Quaternion.LookRotation(aimDirection, Vector3.up));
-            starterAssetsInputs.shoot = false;
+            if (canFire)
+            {
+                Vector3 aimDirection = (mouseWorldPosition - spawnBulletPosition.position).normalized;
+                StartCoroutine(Fire(aimDirection));
+            }
         }
+    }
+
+    IEnumerator Fire(Vector3 aimDir)
+    {
+        canFire = false;
+        Instantiate(bulletProjectile, spawnBulletPosition.position, Quaternion.LookRotation(aimDir, Vector3.up));
+        //Instantiate(gunFire, spawnBulletPosition.position, Quaternion.LookRotation(aimDirection, Vector3.up));
+        StartCoroutine(FireRateHandler());
+        yield return null;
+    }
+
+    IEnumerator FireRateHandler()
+    {
+        float timeToNextFire = 60 / fireRate;
+        CinemachineShake.Instance.ShakeCamera(.7f, timeToNextFire);
+        yield return new WaitForSeconds(timeToNextFire);
+        canFire = true;
     }
 }
