@@ -18,7 +18,7 @@ public class ThirdPersonShooterController : MonoBehaviour
     [SerializeField] private LayerMask aimColliderLayerMask = new LayerMask();
     [SerializeField] private Transform debugTransform;
     [SerializeField] private Transform bulletProjectile;
-    [SerializeField] private Transform gunFire;
+    [SerializeField] private GameObject muzzleLight;
     [SerializeField] private Transform spawnBulletPosition;
 
     private StarterAssetsInputs starterAssetsInputs;
@@ -76,6 +76,7 @@ public class ThirdPersonShooterController : MonoBehaviour
         {
             if (canFire)
             {
+                muzzleLight.SetActive(true);
                 Vector3 aimDirection = (mouseWorldPosition - spawnBulletPosition.position).normalized;
                 StartCoroutine(Fire(aimDirection));
             }
@@ -97,5 +98,14 @@ public class ThirdPersonShooterController : MonoBehaviour
         CinemachineShake.Instance.ShakeCamera(.7f, timeToNextFire);
         yield return new WaitForSeconds(timeToNextFire);
         canFire = true;
+        muzzleLight.SetActive(false);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.layer == LayerMask.NameToLayer("MonsterCol"))
+        {
+            Debug.Log("Hit");
+        }
     }
 }

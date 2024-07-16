@@ -13,12 +13,14 @@ public class ZombieController : MonoBehaviour
     public float AttackRange = 1.0f;
     public float MoveSpeed = 2.0f;
     [SerializeField] private Transform player;
+    [SerializeField] private Collider attackCollider;
     private Animator animator;
     private NavMeshAgent navMeshAgent;
 
     private float animationBlend;
     private int animIDSpeed;
     private int animIDAttack;
+
     void Start()
     {
         animator = GetComponent<Animator>();
@@ -61,5 +63,19 @@ public class ZombieController : MonoBehaviour
     IEnumerator Attack()
     {   
         yield return new WaitForSeconds(AttackRange);
+    }
+
+    //Animation Event Function
+    private void Start_Zombie_Attack()
+    {
+        attackCollider.enabled = true;
+        //Debug.Log("StartAttack");
+    }
+
+    //Animation Event Function
+    private void End_Zombie_Attack()
+    {
+        attackCollider.enabled = false;
+        //Debug.Log("EndAttack");
     }
 }
