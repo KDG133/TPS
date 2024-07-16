@@ -9,6 +9,8 @@ using UnityEngine.Animations.Rigging;
 
 public class ThirdPersonShooterController : MonoBehaviour
 {
+    [SerializeField] private Transform vfxHitGreen;
+    [SerializeField] private Transform vfxHitRed;
     [SerializeField] private Rig aimRig;
     [SerializeField] private CinemachineVirtualCamera aimVirtualCamera;
     [SerializeField] private GameObject Crosshair;
@@ -17,9 +19,9 @@ public class ThirdPersonShooterController : MonoBehaviour
     [SerializeField] private float fireRate; //for test
     [SerializeField] private LayerMask aimColliderLayerMask = new LayerMask();
     [SerializeField] private Transform debugTransform;
-    [SerializeField] private Transform bulletProjectile;
     [SerializeField] private GameObject muzzleLight;
     [SerializeField] private Transform spawnBulletPosition;
+    [SerializeField] private TrailRenderer BulletTrail;
 
     private StarterAssetsInputs starterAssetsInputs;
     private ThirdPersonController thirdPersonController;
@@ -40,10 +42,12 @@ public class ThirdPersonShooterController : MonoBehaviour
         Vector3 mouseWorldPosition = Vector3.zero;
         Vector2 screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
         Ray ray = Camera.main.ScreenPointToRay(screenCenterPoint);
+        Transform hitTransform = null;
         if (Physics.Raycast(ray, out RaycastHit raycastHit, 999.0f, aimColliderLayerMask))
         {
             debugTransform.position = raycastHit.point;
             mouseWorldPosition = raycastHit.point;
+            hitTransform = raycastHit.transform;
         }
 
         if (starterAssetsInputs.aim)
@@ -77,17 +81,28 @@ public class ThirdPersonShooterController : MonoBehaviour
             if (canFire)
             {
                 muzzleLight.SetActive(true);
-                Vector3 aimDirection = (mouseWorldPosition - spawnBulletPosition.position).normalized;
-                StartCoroutine(Fire(aimDirection));
+                TrailRenderer trail = Instantiate(BulletTrail, spawnBulletPosition.position, Quaternion.identity);
+                //Vector3 aimDirection = (mouseWorldPosition - spawnBulletPosition.position).normalized;
+                StartCoroutine(Fire(hitTransform, mouseWorldPosition));
+                StartCoroutine(SpawnTrail(trail, mouseWorldPosition));
             }
         }
     }
 
-    IEnumerator Fire(Vector3 aimDir)
+    IEnumerator Fire(Transform hitTransform, Vector3 mouseWorldPoint)
     {
         canFire = false;
-        Instantiate(bulletProjectile, spawnBulletPosition.position, Quaternion.LookRotation(aimDir, Vector3.up));
-        //Instantiate(gunFire, spawnBulletPosition.position, Quaternion.LookRotation(aimDirection, Vector3.up));
+        if (hitTransform != null)
+        {
+            if (hitTransform.GetComponent<BulletTarget>() != null)
+            {
+                Instantiate(vfxHitGreen, mouseWorldPoint, Quaternion.identity);
+            }
+            else
+            {
+                Instantiate(vfxHitRed, mouseWorldPoint, Quaternion.identity);
+            }
+        }
         StartCoroutine(FireRateHandler());
         yield return null;
     }
@@ -99,6 +114,23 @@ public class ThirdPersonShooterController : MonoBehaviour
         yield return new WaitForSeconds(timeToNextFire);
         canFire = true;
         muzzleLight.SetActive(false);
+    }
+
+    IEnumerator SpawnTrail(TrailRenderer trail, Vector3 mouseWorldPoint)
+    {
+        float time = 0;
+        float timeToNextFire = 60 / fireRate;
+        Vector3 startPosition = trail.transform.position;
+
+        while (time < timeToNextFire)
+        {
+            trail.transform.position = Vector3.Lerp(startPosition, mouseWorldPoint, time / timeToNextFire);
+            time += Time.deltaTime;
+
+            yield return null;
+        }
+
+        Destroy(trail.gameObject, trail.time);
     }
 
     private void OnTriggerEnter(Collider other)

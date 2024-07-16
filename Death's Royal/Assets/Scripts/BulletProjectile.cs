@@ -21,9 +21,10 @@ public class BulletProjectile : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.GetComponent<BulletTarget>() != null){
+        if(other.GetComponent<BulletTarget>() != null) {
             Instantiate(vfxHitGreen, transform.position, Quaternion.identity);
-        }else{
+        }
+        else {
             Instantiate(vfxHitRed, transform.position, Quaternion.identity);
         }
         Destroy(gameObject);
