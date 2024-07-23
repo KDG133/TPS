@@ -31,7 +31,6 @@ public class ThirdPersonShooterController : MonoBehaviour
 
     private void Awake()
     {
-        //aimVirtualCamera = GameObject.Find("PlayerAimCamera").GetComponent<CinemachineVirtualCamera>();
         starterAssetsInputs = GetComponent<StarterAssetsInputs>();
         thirdPersonController = GetComponent<ThirdPersonController>();
         animator = GetComponent<Animator>();
@@ -81,10 +80,9 @@ public class ThirdPersonShooterController : MonoBehaviour
             if (canFire)
             {
                 muzzleLight.SetActive(true);
-                TrailRenderer trail = Instantiate(BulletTrail, spawnBulletPosition.position, Quaternion.identity);
-                //Vector3 aimDirection = (mouseWorldPosition - spawnBulletPosition.position).normalized;
                 StartCoroutine(Fire(hitTransform, mouseWorldPosition));
-                StartCoroutine(SpawnTrail(trail, mouseWorldPosition));
+                StartCoroutine(SpawnTrail(mouseWorldPosition));
+                CinemachineShake.Instance.ShakeCamera(.7f, 60.0f / fireRate);
             }
         }
     }
@@ -110,14 +108,15 @@ public class ThirdPersonShooterController : MonoBehaviour
     IEnumerator FireRateHandler()
     {
         float timeToNextFire = 60 / fireRate;
-        CinemachineShake.Instance.ShakeCamera(.7f, timeToNextFire);
         yield return new WaitForSeconds(timeToNextFire);
         canFire = true;
         muzzleLight.SetActive(false);
     }
 
-    IEnumerator SpawnTrail(TrailRenderer trail, Vector3 mouseWorldPoint)
+    IEnumerator SpawnTrail(Vector3 mouseWorldPoint)
     {
+        TrailRenderer trail = Instantiate(BulletTrail, spawnBulletPosition.position, Quaternion.identity);
+
         float time = 0;
         float timeToNextFire = 60 / fireRate;
         Vector3 startPosition = trail.transform.position;

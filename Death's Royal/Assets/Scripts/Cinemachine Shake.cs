@@ -7,8 +7,8 @@ public class CinemachineShake : MonoBehaviour
 {
     public static CinemachineShake Instance {  get; private set; }
     private CinemachineVirtualCamera cinemachineVirtualCamera;
-    private float shakeTimer;
-    private float shakeTimerTotal;
+    [SerializeField] private float shakeTimer;
+    [SerializeField] private float shakeTimerTotal;
     private float startingIntensity;
     private void Awake()
     {
