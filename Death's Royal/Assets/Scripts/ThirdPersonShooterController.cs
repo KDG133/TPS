@@ -9,6 +9,9 @@ using UnityEngine.Animations.Rigging;
 
 public class ThirdPersonShooterController : MonoBehaviour
 {
+    public float Health = 100f;
+    public float MaxHealth = 100f;
+
     [SerializeField] private Transform vfxHitGreen;
     [SerializeField] private Transform vfxHitRed;
     [SerializeField] private Rig aimRig;
@@ -16,7 +19,7 @@ public class ThirdPersonShooterController : MonoBehaviour
     [SerializeField] private GameObject Crosshair;
     [SerializeField] private float normalSensitivity;
     [SerializeField] private float aimSensitivity;
-    [SerializeField] private float fireRate; //for test
+    [SerializeField] private float fireRate;
     [SerializeField] private LayerMask aimColliderLayerMask = new LayerMask();
     [SerializeField] private Transform debugTransform;
     [SerializeField] private GameObject muzzleLight;
@@ -27,6 +30,8 @@ public class ThirdPersonShooterController : MonoBehaviour
     private ThirdPersonController thirdPersonController;
     private Animator animator;
     private float aimRigWeight;
+    private Vector3 mouseWorldPosition = Vector3.zero;
+    private Transform hitTransform = null;
     [SerializeField] private bool canFire = true;
 
     private void Awake()
@@ -38,17 +43,28 @@ public class ThirdPersonShooterController : MonoBehaviour
 
     private void Update()
     {
-        Vector3 mouseWorldPosition = Vector3.zero;
+        //test
+        if(Input.GetKeyDown(KeyCode.X)) { Health -= 10f; }
+
+        Raycast();
+        Aim();
+        Shoot();
+    }
+
+    private void Raycast()
+    {
         Vector2 screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
         Ray ray = Camera.main.ScreenPointToRay(screenCenterPoint);
-        Transform hitTransform = null;
         if (Physics.Raycast(ray, out RaycastHit raycastHit, 999.0f, aimColliderLayerMask))
         {
             debugTransform.position = raycastHit.point;
             mouseWorldPosition = raycastHit.point;
             hitTransform = raycastHit.transform;
         }
+    }
 
+    private void Aim()
+    {
         if (starterAssetsInputs.aim)
         {
             Crosshair.SetActive(true);
@@ -74,7 +90,10 @@ public class ThirdPersonShooterController : MonoBehaviour
             animator.SetLayerWeight(1, Mathf.Lerp(animator.GetLayerWeight(1), 0f, Time.deltaTime * 10f));
         }
         aimRig.weight = Mathf.Lerp(aimRig.weight, aimRigWeight, Time.deltaTime * 20f);
+    }
 
+    private void Shoot()
+    {
         if (starterAssetsInputs.shoot)
         {
             if (canFire)
@@ -137,6 +156,7 @@ public class ThirdPersonShooterController : MonoBehaviour
         if(other.gameObject.layer == LayerMask.NameToLayer("MonsterCol"))
         {
             Debug.Log("Hit");
+            Health -= 10f;
         }
     }
 }
