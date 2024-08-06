@@ -28,27 +28,40 @@ public class ThirdPersonShooterController : MonoBehaviour
 
     private StarterAssetsInputs starterAssetsInputs;
     private ThirdPersonController thirdPersonController;
+    private WeaponManager weaponManager;
+
+    [SerializeField] private Firearms firearms;
+
     private Animator animator;
     private float aimRigWeight;
     private Vector3 mouseWorldPosition = Vector3.zero;
     private Transform hitTransform = null;
     [SerializeField] private bool canFire = true;
 
+    public Vector3 playerMouseWorldPosition
+    {
+        get { return mouseWorldPosition; }
+    }
+
+    public Transform playerHitTransform
+    {
+        get { return hitTransform; }
+    }
+
     private void Awake()
     {
         starterAssetsInputs = GetComponent<StarterAssetsInputs>();
         thirdPersonController = GetComponent<ThirdPersonController>();
+        weaponManager = GetComponent<WeaponManager>();
         animator = GetComponent<Animator>();
     }
 
     private void Update()
     {
-        //test
-        if(Input.GetKeyDown(KeyCode.X)) { Health -= 10f; }
-
         Raycast();
         Aim();
         Shoot();
+        Reload();
     }
 
     private void Raycast()
@@ -96,13 +109,22 @@ public class ThirdPersonShooterController : MonoBehaviour
     {
         if (starterAssetsInputs.shoot)
         {
-            if (canFire)
-            {
-                muzzleLight.SetActive(true);
-                StartCoroutine(Fire(hitTransform, mouseWorldPosition));
-                StartCoroutine(SpawnTrail(mouseWorldPosition));
-                CinemachineShake.Instance.ShakeCamera(.7f, 60.0f / fireRate);
-            }
+            firearms.Shoot();
+            //if (canFire)
+            //{
+            //    muzzleLight.SetActive(true);
+            //    StartCoroutine(Fire(hitTransform, mouseWorldPosition));
+            //    StartCoroutine(SpawnTrail(mouseWorldPosition));
+            //    CinemachineShake.Instance.ShakeCamera(.7f, 60.0f / fireRate);
+            //}
+        }
+    }
+
+    private void Reload()
+    {
+        if (starterAssetsInputs.reload)
+        {
+            animator.SetTrigger("Reload");
         }
     }
 
