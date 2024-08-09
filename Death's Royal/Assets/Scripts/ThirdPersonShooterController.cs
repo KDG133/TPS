@@ -12,26 +12,16 @@ public class ThirdPersonShooterController : MonoBehaviour
     public float Health = 100f;
     public float MaxHealth = 100f;
 
-    [SerializeField] private Transform vfxHitGreen;
-    [SerializeField] private Transform vfxHitRed;
     [SerializeField] private Rig aimRig;
     [SerializeField] private CinemachineVirtualCamera aimVirtualCamera;
     [SerializeField] private GameObject Crosshair;
     [SerializeField] private float normalSensitivity;
     [SerializeField] private float aimSensitivity;
-    [SerializeField] private float fireRate;
     [SerializeField] private LayerMask aimColliderLayerMask = new LayerMask();
     [SerializeField] private Transform debugTransform;
-    [SerializeField] private GameObject muzzleLight;
-    [SerializeField] private Transform spawnBulletPosition;
-    [SerializeField] private TrailRenderer BulletTrail;
 
     private StarterAssetsInputs starterAssetsInputs;
     private ThirdPersonController thirdPersonController;
-    private WeaponManager weaponManager;
-
-    [SerializeField] private Firearms firearms;
-
     private Animator animator;
     private float aimRigWeight;
     private Vector3 mouseWorldPosition = Vector3.zero;
@@ -51,7 +41,6 @@ public class ThirdPersonShooterController : MonoBehaviour
     {
         starterAssetsInputs = GetComponent<StarterAssetsInputs>();
         thirdPersonController = GetComponent<ThirdPersonController>();
-        weaponManager = GetComponent<WeaponManager>();
         animator = GetComponent<Animator>();
     }
 
@@ -108,7 +97,7 @@ public class ThirdPersonShooterController : MonoBehaviour
     {
         if (starterAssetsInputs.shoot)
         {
-            weaponManager.CurrentFirearm.Shoot();
+            WeaponManager.Instance.CurrentFirearm.Shoot();
         }
     }
 
@@ -117,6 +106,7 @@ public class ThirdPersonShooterController : MonoBehaviour
         if (starterAssetsInputs.reload)
         {
             animator.SetTrigger("Reload");
+            WeaponManager.Instance.CurrentFirearm.Reload();
         }
     }
 

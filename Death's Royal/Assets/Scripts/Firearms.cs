@@ -16,13 +16,27 @@ public class Firearms : MonoBehaviour
     [SerializeField] private float fireRate;
     [SerializeField] private int maxAmmo = 0;
     [SerializeField] private int remainingAmmo = 0;
+    [SerializeField] private float camIntensity = 0;
+
+    [SerializeField] private int shotgunPellets = 0;
+    [SerializeField] private float spreadAngle = 0;
+    [SerializeField] private float range = 0;
     private bool canFire = true;
     private Vector3 mouseWorldPosition = Vector3.zero;
     private Transform hitTransform = null;
+
+    public float MaxAmmo
+    {
+        get { return maxAmmo; }
+    }
+    public float RemainingAmmo
+    {
+        get { return remainingAmmo; }
+    }
     // Start is called before the first frame update
     void Start()
     {
-        
+        remainingAmmo = maxAmmo;
     }
 
     // Update is called once per frame
@@ -34,17 +48,35 @@ public class Firearms : MonoBehaviour
 
     public void Shoot()
     {
-        if (canFire)
+        if(GunType == gunType.SG)
         {
-            muzzleLight.SetActive(true);
-            StartCoroutine(Fire(hitTransform, mouseWorldPosition));
-            StartCoroutine(SpawnTrail(mouseWorldPosition));
-            CinemachineShake.Instance.ShakeCamera(.7f, 60.0f / fireRate);
+            if (canFire && remainingAmmo > 0)
+            {
+                muzzleLight.SetActive(true);
+                StartCoroutine(ShotGunFire(mouseWorldPosition));
+                CinemachineShake.Instance.ShakeCamera(.7f, 60.0f / fireRate);
+            }
         }
+        else
+        {
+            if (canFire && remainingAmmo > 0)
+            {
+                muzzleLight.SetActive(true);
+                StartCoroutine(Fire(hitTransform, mouseWorldPosition));
+                StartCoroutine(SpawnTrail(mouseWorldPosition));
+                CinemachineShake.Instance.ShakeCamera(.7f, 60.0f / fireRate);
+            }
+        }        
+    }
+
+    public void Reload()
+    {
+        remainingAmmo = maxAmmo;
     }
 
     IEnumerator Fire(Transform hitTransform, Vector3 mouseWorldPoint)
     {
+        remainingAmmo -= 1;
         canFire = false;
         if (hitTransform != null)
         {
@@ -57,6 +89,38 @@ public class Firearms : MonoBehaviour
                 Instantiate(vfxHitRed, mouseWorldPoint, Quaternion.identity);
             }
         }
+        StartCoroutine(FireRateHandler());
+        yield return null;
+    }
+
+    IEnumerator ShotGunFire(Vector3 mouseWorldPoint)
+    {
+        remainingAmmo -= 1;
+        canFire = false;
+
+        for(int i = 0; i < shotgunPellets; i++) {
+            Vector3 aimDirection = (mouseWorldPoint - spawnBulletPosition.position).normalized;
+            Vector3 randomDirection = aimDirection + new Vector3(Random.Range(-spreadAngle, spreadAngle),
+                                                                 Random.Range(-spreadAngle, spreadAngle),
+                                                                 0);
+            randomDirection.Normalize();
+
+            RaycastHit hit;
+            if (Physics.Raycast(spawnBulletPosition.position, randomDirection, out hit, range))
+            {
+                BulletTarget target = hit.transform.GetComponent<BulletTarget>();
+                if (target != null)
+                {
+                    Instantiate(vfxHitGreen, hit.point, Quaternion.identity);
+                }
+                else
+                {
+                    Instantiate(vfxHitRed, hit.point, Quaternion.identity);
+                }
+            }
+            StartCoroutine(SpawnTrail(hit.point));
+        }       
+
         StartCoroutine(FireRateHandler());
         yield return null;
     }

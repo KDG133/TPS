@@ -4,21 +4,25 @@ using UnityEngine;
 
 public class WeaponManager : MonoBehaviour
 {
-    [SerializeField] Firearms[] firearms;
-
-    private Firearms currentFirearm = null;
+    public static WeaponManager Instance { get; private set; }
+    [SerializeField] private Firearms[] firearms;
+    [SerializeField] private Firearms currentFirearm = null;
     public Firearms CurrentFirearm
     {
         get { return currentFirearm; }
     }
+    private void Awake()
+    {
+        Instance = this;
+    }
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
         currentFirearm = firearms[0];
     }
 
     // Update is called once per frame
-    void Update()
+    private void Update()
     {
         if(Input.GetKeyDown(KeyCode.Alpha1)) 
         {

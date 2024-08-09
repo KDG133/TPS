@@ -1,20 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class PlayerInfoUI : MonoBehaviour
 {
     public Transform uiPos;
-    public Transform test;
+    public Transform playerInfo;
     public Image healthBar;
+    public TextMeshProUGUI remainAmmotxt;
+    public TextMeshProUGUI maxAmmotxt;
     public ThirdPersonShooterController tpsController;
 
     public float lerpSpeed;
     // Start is called before the first frame update
     void Start()
     {
-        
+
     }
 
     // Update is called once per frame
@@ -23,13 +26,14 @@ public class PlayerInfoUI : MonoBehaviour
         lerpSpeed = 3f * Time.deltaTime;
         HealthBarFill();
         ColorChange();
+        AmmoInfo();
     }
 
     private void LateUpdate()
     {
         Vector3 screenPos = Camera.main.WorldToScreenPoint(uiPos.position);
         screenPos.x += 150f;
-        test.position = screenPos;
+        playerInfo.position = screenPos;
     }
 
     void HealthBarFill()
@@ -41,5 +45,11 @@ public class PlayerInfoUI : MonoBehaviour
     {
         Color healthColor = Color.Lerp(Color.red, Color.green, tpsController.Health / tpsController.MaxHealth);
         healthBar.color = healthColor;
+    }
+
+    void AmmoInfo()
+    {
+        maxAmmotxt.text = WeaponManager.Instance.CurrentFirearm.MaxAmmo.ToString();
+        remainAmmotxt.text = WeaponManager.Instance.CurrentFirearm.RemainingAmmo.ToString();
     }
 }
