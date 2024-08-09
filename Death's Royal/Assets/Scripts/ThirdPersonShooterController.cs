@@ -36,7 +36,6 @@ public class ThirdPersonShooterController : MonoBehaviour
     private float aimRigWeight;
     private Vector3 mouseWorldPosition = Vector3.zero;
     private Transform hitTransform = null;
-    [SerializeField] private bool canFire = true;
 
     public Vector3 playerMouseWorldPosition
     {
@@ -109,14 +108,7 @@ public class ThirdPersonShooterController : MonoBehaviour
     {
         if (starterAssetsInputs.shoot)
         {
-            firearms.Shoot();
-            //if (canFire)
-            //{
-            //    muzzleLight.SetActive(true);
-            //    StartCoroutine(Fire(hitTransform, mouseWorldPosition));
-            //    StartCoroutine(SpawnTrail(mouseWorldPosition));
-            //    CinemachineShake.Instance.ShakeCamera(.7f, 60.0f / fireRate);
-            //}
+            weaponManager.CurrentFirearm.Shoot();
         }
     }
 
@@ -126,51 +118,6 @@ public class ThirdPersonShooterController : MonoBehaviour
         {
             animator.SetTrigger("Reload");
         }
-    }
-
-    IEnumerator Fire(Transform hitTransform, Vector3 mouseWorldPoint)
-    {
-        canFire = false;
-        if (hitTransform != null)
-        {
-            if (hitTransform.GetComponent<BulletTarget>() != null)
-            {
-                Instantiate(vfxHitGreen, mouseWorldPoint, Quaternion.identity);
-            }
-            else
-            {
-                Instantiate(vfxHitRed, mouseWorldPoint, Quaternion.identity);
-            }
-        }
-        StartCoroutine(FireRateHandler());
-        yield return null;
-    }
-
-    IEnumerator FireRateHandler()
-    {
-        float timeToNextFire = 60 / fireRate;
-        yield return new WaitForSeconds(timeToNextFire);
-        canFire = true;
-        muzzleLight.SetActive(false);
-    }
-
-    IEnumerator SpawnTrail(Vector3 mouseWorldPoint)
-    {
-        TrailRenderer trail = Instantiate(BulletTrail, spawnBulletPosition.position, Quaternion.identity);
-
-        float time = 0;
-        float timeToNextFire = 60 / fireRate;
-        Vector3 startPosition = trail.transform.position;
-
-        while (time < timeToNextFire)
-        {
-            trail.transform.position = Vector3.Lerp(startPosition, mouseWorldPoint, time / timeToNextFire);
-            time += Time.deltaTime;
-
-            yield return null;
-        }
-
-        Destroy(trail.gameObject, trail.time);
     }
 
     private void OnTriggerEnter(Collider other)

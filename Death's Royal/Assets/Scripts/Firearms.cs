@@ -5,18 +5,20 @@ using UnityEngine;
 
 public class Firearms : MonoBehaviour
 {
+    public enum gunType { AR, SMG, SG, END }
     [SerializeField] private ThirdPersonShooterController tpsController;
     [SerializeField] private Transform vfxHitGreen;
     [SerializeField] private Transform vfxHitRed;
     [SerializeField] private GameObject muzzleLight;
     [SerializeField] private Transform spawnBulletPosition;
     [SerializeField] private TrailRenderer BulletTrail;
+    [SerializeField] private gunType GunType;
     [SerializeField] private float fireRate;
+    [SerializeField] private int maxAmmo = 0;
+    [SerializeField] private int remainingAmmo = 0;
     private bool canFire = true;
     private Vector3 mouseWorldPosition = Vector3.zero;
     private Transform hitTransform = null;
-    private int maxAmmo = 0;
-    private int remainingAmmo = 0;
     // Start is called before the first frame update
     void Start()
     {
@@ -77,7 +79,7 @@ public class Firearms : MonoBehaviour
 
         while (time < timeToNextFire)
         {
-            trail.transform.position = Vector3.Lerp(startPosition, mouseWorldPoint, time / timeToNextFire);
+            trail.transform.position = Vector3.Lerp(startPosition, mouseWorldPoint, time / 0.05f);
             time += Time.deltaTime;
 
             yield return null;
