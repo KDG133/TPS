@@ -22,6 +22,7 @@ public class Firearms : MonoBehaviour
     [SerializeField] private float spreadAngle = 0;
     [SerializeField] private float range = 0;
     private bool canFire = true;
+    private bool reloading = false;
     private Vector3 mouseWorldPosition = Vector3.zero;
     private Transform hitTransform = null;
 
@@ -48,29 +49,33 @@ public class Firearms : MonoBehaviour
 
     public void Shoot()
     {
-        if(GunType == gunType.SG)
+        if (canFire && remainingAmmo > 0 && !reloading)
         {
-            if (canFire && remainingAmmo > 0)
+            if (GunType == gunType.SG)
             {
                 muzzleLight.SetActive(true);
                 StartCoroutine(ShotGunFire(mouseWorldPosition));
                 CinemachineShake.Instance.ShakeCamera(.7f, 60.0f / fireRate);
             }
-        }
-        else
-        {
-            if (canFire && remainingAmmo > 0)
+            else
             {
                 muzzleLight.SetActive(true);
                 StartCoroutine(Fire(hitTransform, mouseWorldPosition));
                 StartCoroutine(SpawnTrail(mouseWorldPosition));
                 CinemachineShake.Instance.ShakeCamera(.7f, 60.0f / fireRate);
             }
-        }        
+        }              
     }
 
     public void Reload()
     {
+        reloading = true;
+    }
+
+    //Animation Event Function
+    public void EndReload()
+    {
+        reloading = false;
         remainingAmmo = maxAmmo;
     }
 
@@ -143,7 +148,7 @@ public class Firearms : MonoBehaviour
 
         while (time < timeToNextFire)
         {
-            trail.transform.position = Vector3.Lerp(startPosition, mouseWorldPoint, time / 0.05f);
+            trail.transform.position = Vector3.Lerp(startPosition, mouseWorldPoint, time / 0.03f);
             time += Time.deltaTime;
 
             yield return null;

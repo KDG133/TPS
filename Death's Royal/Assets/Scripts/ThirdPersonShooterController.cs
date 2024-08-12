@@ -110,6 +110,11 @@ public class ThirdPersonShooterController : MonoBehaviour
         }
     }
 
+    private void End_Reload()
+    {
+        WeaponManager.Instance.CurrentFirearm.EndReload();
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.layer == LayerMask.NameToLayer("MonsterCol"))
