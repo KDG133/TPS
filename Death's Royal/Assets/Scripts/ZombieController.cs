@@ -6,7 +6,7 @@ using UnityEngine.AI;
 using UnityEngine.UIElements;
 using UnityEngine.Windows;
 
-public class ZombieController : MonoBehaviour
+public class ZombieController : BulletTarget
 {
     public float SpeedChangeRate = 10.0f;
     public float CheckRange = 10.0f;
@@ -15,23 +15,39 @@ public class ZombieController : MonoBehaviour
     [SerializeField] private Transform player;
     [SerializeField] private Collider attackCollider;
     private Animator animator;
+    private Collider[] cols;
+    private Rigidbody[] rbs;
     private NavMeshAgent navMeshAgent;
 
     private float animationBlend;
     private int animIDSpeed;
-    private int animIDAttack;
+    private int animIDAttack;   
 
     void Start()
     {
         animator = GetComponent<Animator>();
+        cols = GetComponentsInChildren<Collider>();
+        rbs = GetComponentsInChildren<Rigidbody>();
         navMeshAgent = GetComponent<NavMeshAgent>();
         AssignAnimationIDs();
+
+        Health = MaxHealth;
     }
 
     // Update is called once per frame
     void Update()
     {
-        ChasePlayer();
+        if (Health <= 0)
+            isDead = true;
+
+        if (!isDead)
+        {
+            ChasePlayer();
+        }
+        else
+        {
+            EnableRagdoll(true);
+        }
     }
 
     private void AssignAnimationIDs()
@@ -65,17 +81,29 @@ public class ZombieController : MonoBehaviour
         yield return new WaitForSeconds(AttackRange);
     }
 
+    private void EnableRagdoll(bool isEnable)
+    {
+        animator.enabled = !isEnable;
+        foreach (Collider col in cols)
+        {
+            col.enabled = isEnable;
+        }
+        foreach (Rigidbody rb in rbs)
+        {
+            rb.useGravity = isEnable;
+            rb.isKinematic = !isEnable;
+        }
+    }
+
     //Animation Event Function
     private void Start_Zombie_Attack()
     {
         attackCollider.enabled = true;
-        //Debug.Log("StartAttack");
     }
 
     //Animation Event Function
     private void End_Zombie_Attack()
     {
         attackCollider.enabled = false;
-        //Debug.Log("EndAttack");
     }
 }

@@ -7,8 +7,8 @@ public class Firearms : MonoBehaviour
 {
     public enum gunType { AR, SMG, SG, END }
     [SerializeField] private ThirdPersonShooterController tpsController;
-    [SerializeField] private Transform vfxHitGreen;
     [SerializeField] private Transform vfxHitRed;
+    [SerializeField] private Transform vfxHitYellow;
     [SerializeField] private GameObject muzzleLight;
     [SerializeField] private Transform spawnBulletPosition;
     [SerializeField] private TrailRenderer BulletTrail;
@@ -85,13 +85,15 @@ public class Firearms : MonoBehaviour
         canFire = false;
         if (hitTransform != null)
         {
-            if (hitTransform.GetComponent<BulletTarget>() != null)
+            BulletTarget target = hitTransform.GetComponent<BulletTarget>();
+            if (target != null)
             {
-                Instantiate(vfxHitGreen, mouseWorldPoint, Quaternion.identity);
+                target.Hit();
+                Instantiate(vfxHitRed, mouseWorldPoint, Quaternion.identity);
             }
             else
             {
-                Instantiate(vfxHitRed, mouseWorldPoint, Quaternion.identity);
+                Instantiate(vfxHitYellow, mouseWorldPoint, Quaternion.identity);
             }
         }
         StartCoroutine(FireRateHandler());
@@ -116,11 +118,11 @@ public class Firearms : MonoBehaviour
                 BulletTarget target = hit.transform.GetComponent<BulletTarget>();
                 if (target != null)
                 {
-                    Instantiate(vfxHitGreen, hit.point, Quaternion.identity);
+                    Instantiate(vfxHitRed, hit.point, Quaternion.identity);
                 }
                 else
                 {
-                    Instantiate(vfxHitRed, hit.point, Quaternion.identity);
+                    Instantiate(vfxHitYellow, hit.point, Quaternion.identity);
                 }
             }
             StartCoroutine(SpawnTrail(hit.point));
@@ -148,7 +150,7 @@ public class Firearms : MonoBehaviour
 
         while (time < timeToNextFire)
         {
-            trail.transform.position = Vector3.Lerp(startPosition, mouseWorldPoint, time / 0.03f);
+            trail.transform.position = Vector3.Lerp(startPosition, mouseWorldPoint, time / 0.1f);
             time += Time.deltaTime;
 
             yield return null;
