@@ -89,11 +89,15 @@ public class Firearms : MonoBehaviour
             if (target != null)
             {
                 target.Hit(1.0f);
-                Instantiate(vfxHitRed, mouseWorldPoint, Quaternion.identity);
+                GameObject effectHit = EffectManager.Instance.GetValue("vfxHitRed");
+                effectHit.transform.position = mouseWorldPoint;
+                //Instantiate(vfxHitRed, mouseWorldPoint, Quaternion.identity);
             }
             else
             {
-                Instantiate(vfxHitYellow, mouseWorldPoint, Quaternion.identity);
+                GameObject effectHit = EffectManager.Instance.GetValue("vfxHitYellow");
+                effectHit.transform.position = mouseWorldPoint;
+                //Instantiate(vfxHitYellow, mouseWorldPoint, Quaternion.identity);
             }
         }
         StartCoroutine(FireRateHandler());

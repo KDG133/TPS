@@ -5,7 +5,7 @@ using UnityEngine;
 public class BulletManager : Singleton<BulletManager>
 {
     [SerializeField] private GameObject bullets;
-    [SerializeField] private Queue<GameObject> bulletQue;
+    private Queue<GameObject> bulletQue;
     public int spawnCount;
     // Start is called before the first frame update
     void Start()
@@ -18,8 +18,7 @@ public class BulletManager : Singleton<BulletManager>
     public void AddBullet()
     {
         GameObject Bullet = Instantiate(bullets, gameObject.transform);
-        bulletQue.Enqueue(Bullet);
-        Bullet.SetActive(false);
+        insertQueue(Bullet);
     }
 
     public void insertQueue(GameObject b_object)

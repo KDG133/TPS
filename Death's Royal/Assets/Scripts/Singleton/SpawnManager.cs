@@ -15,18 +15,10 @@ public class SpawnManager : Singleton<SpawnManager>
         for (int i = 0; i < spawnCount; i++)
         {
             GameObject zombie = Instantiate(Zombie, gameObject.transform);
-            monsterQue.Enqueue(zombie);
-            zombie.SetActive(false);
+            insertQueue(zombie);
         }
 
         StartCoroutine(MonsterSpawn());
-    }
-
-    public void AddQueue()
-    {
-        GameObject zombie = Instantiate(Zombie, gameObject.transform);
-        monsterQue.Enqueue(zombie);
-        zombie.SetActive(false);
     }
 
     public void insertQueue(GameObject p_object)
