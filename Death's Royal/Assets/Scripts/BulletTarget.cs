@@ -6,7 +6,9 @@ public class BulletTarget : MonoBehaviour
 {
     [SerializeField] protected float Health;
     [SerializeField] protected float MaxHealth;
-    [SerializeField] protected bool isDead = false;
+    [SerializeField] protected int plusUpgradePoint;
+    protected bool isDead = false;
+    protected bool preisDead = false;
 
     // Start is called before the first frame update
     void Start()
@@ -20,8 +22,21 @@ public class BulletTarget : MonoBehaviour
         
     }
 
-    public void Hit()
+    public void GetUpgradePoint()
     {
-        Health -= 1;
+        if (isDead == true && isDead != preisDead)
+        {
+            preisDead = !preisDead;
+            UpgradeManager.Instance.upgradePoint += plusUpgradePoint;
+        }
+        else if(isDead == false && isDead != preisDead)
+        {
+            preisDead = !preisDead;
+        }
+    }
+
+    public void Hit(float damage)
+    {
+        Health -= damage;
     }
 }

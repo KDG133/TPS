@@ -88,7 +88,7 @@ public class Firearms : MonoBehaviour
             BulletTarget target = hitTransform.GetComponent<BulletTarget>();
             if (target != null)
             {
-                target.Hit();
+                target.Hit(1.0f);
                 Instantiate(vfxHitRed, mouseWorldPoint, Quaternion.identity);
             }
             else
@@ -118,6 +118,7 @@ public class Firearms : MonoBehaviour
                 BulletTarget target = hit.transform.GetComponent<BulletTarget>();
                 if (target != null)
                 {
+                    target.Hit(1.0f);
                     Instantiate(vfxHitRed, hit.point, Quaternion.identity);
                 }
                 else
@@ -142,7 +143,8 @@ public class Firearms : MonoBehaviour
 
     IEnumerator SpawnTrail(Vector3 mouseWorldPoint)
     {
-        TrailRenderer trail = Instantiate(BulletTrail, spawnBulletPosition.position, Quaternion.identity);
+        GameObject trail = BulletManager.Instance.GetQueue();
+        trail.transform.position = spawnBulletPosition.position;
 
         float time = 0;
         float timeToNextFire = 60 / fireRate;
@@ -156,6 +158,6 @@ public class Firearms : MonoBehaviour
             yield return null;
         }
 
-        Destroy(trail.gameObject, trail.time);
+        BulletManager.Instance.insertQueue(trail);
     }
 }

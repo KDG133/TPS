@@ -9,14 +9,13 @@ using UnityEngine.Windows;
 public class ZombieController : BulletTarget
 {
     public float SpeedChangeRate = 10.0f;
-    public float CheckRange = 10.0f;
+    public float CheckRange = 20.0f;
     public float AttackRange = 1.0f;
     public float MoveSpeed = 2.0f;
-    [SerializeField] private Transform player;
+    private Transform player;
     [SerializeField] private Collider attackCollider;
+    [SerializeField] private Collider col;
     private Animator animator;
-    private Collider[] cols;
-    private Rigidbody[] rbs;
     private NavMeshAgent navMeshAgent;
 
     private float animationBlend;
@@ -25,9 +24,8 @@ public class ZombieController : BulletTarget
 
     void Start()
     {
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Transform>();
         animator = GetComponent<Animator>();
-        cols = GetComponentsInChildren<Collider>();
-        rbs = GetComponentsInChildren<Rigidbody>();
         navMeshAgent = GetComponent<NavMeshAgent>();
         AssignAnimationIDs();
 
@@ -38,16 +36,19 @@ public class ZombieController : BulletTarget
     void Update()
     {
         if (Health <= 0)
+        {
+            col.enabled = false;
             isDead = true;
+            //animator.SetBool("isDead", true);
+            animator.SetTrigger("Dead");
+        }
 
         if (!isDead)
-        {
             ChasePlayer();
-        }
         else
-        {
-            EnableRagdoll(true);
-        }
+            StartCoroutine(DeadDelete());
+
+        GetUpgradePoint();
     }
 
     private void AssignAnimationIDs()
@@ -68,7 +69,6 @@ public class ZombieController : BulletTarget
             if (animationBlend < 0.01f) animationBlend = 0f;
 
             animator.SetFloat(animIDSpeed, animationBlend);
-            //transform.forward = Vector3.Lerp(transform.forward, MoveDir, Time.deltaTime * 2.0f);
             navMeshAgent.SetDestination(player.position);
         }
         else {
@@ -76,23 +76,23 @@ public class ZombieController : BulletTarget
         }
     }
 
+    private void OnEnable()
+    {
+        Health = MaxHealth;
+        isDead = false;
+        col.enabled = true;
+    }
+
     IEnumerator Attack()
     {   
         yield return new WaitForSeconds(AttackRange);
     }
 
-    private void EnableRagdoll(bool isEnable)
+    IEnumerator DeadDelete()
     {
-        animator.enabled = !isEnable;
-        foreach (Collider col in cols)
-        {
-            col.enabled = isEnable;
-        }
-        foreach (Rigidbody rb in rbs)
-        {
-            rb.useGravity = isEnable;
-            rb.isKinematic = !isEnable;
-        }
+        yield return new WaitForSeconds(3.2f);
+        SpawnManager.Instance.insertQueue(gameObject);
+        OnEnable();
     }
 
     //Animation Event Function
