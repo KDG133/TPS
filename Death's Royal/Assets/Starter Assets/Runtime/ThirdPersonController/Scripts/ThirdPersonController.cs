@@ -76,12 +76,18 @@ namespace StarterAssets
         [Tooltip("For locking the camera position on all axis")]
         public bool LockCameraPosition = false;
 
+        [Tooltip("For checking the pause menu")]
+        static public bool _isPause = false;
+
         // cinemachine
         private float _cinemachineTargetYaw;
         private float _cinemachineTargetPitch;
 
         // player
+        static public int _movespeedPoint; // test
         private float _speed;
+        private float _applyspeed; // test
+        private float _movespeedRatio = 0.25f; // test
         private float _animationBlend;
         private float _targetRotation = 0.0f;
         private float _rotationVelocity;
@@ -124,7 +130,6 @@ namespace StarterAssets
             }
         }
 
-
         private void Awake()
         {
             // get a reference to our main camera
@@ -156,16 +161,20 @@ namespace StarterAssets
 
         private void Update()
         {
-            _hasAnimator = TryGetComponent(out _animator);
+            _hasAnimator = TryGetComponent(out _animator);          
 
-            JumpAndGravity();
-            GroundedCheck();
-            Move();
+            if(!_isPause)
+            {
+                JumpAndGravity();
+                GroundedCheck();
+                Move();
+            }           
         }
 
         private void LateUpdate()
         {
-            CameraRotation();
+            if (!_isPause)
+                CameraRotation();
         }
 
         private void AssignAnimationIDs()
@@ -217,6 +226,7 @@ namespace StarterAssets
         {
             // set target speed based on move speed, sprint speed and if sprint is pressed
             float targetSpeed = _input.sprint ? SprintSpeed : MoveSpeed;
+            targetSpeed = targetSpeed * (1.0f + (_movespeedPoint * _movespeedRatio));
 
             // a simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon
 

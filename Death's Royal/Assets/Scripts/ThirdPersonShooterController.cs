@@ -27,6 +27,7 @@ public class ThirdPersonShooterController : MonoBehaviour
     private Vector3 mouseWorldPosition = Vector3.zero;
     private Transform hitTransform = null;
     private float reloadSpeed = 1.0f;
+    private float reloadPlusRatio = 0.25f;
 
     public Vector3 playerMouseWorldPosition
     {
@@ -104,7 +105,7 @@ public class ThirdPersonShooterController : MonoBehaviour
 
     private void Reload()
     {
-        animator.SetFloat("ReloadSpeed", reloadSpeed);
+        animator.SetFloat("ReloadSpeed", reloadSpeed + (reloadPlusRatio * UpgradeManager.Instance.reloadPoint));
         if (starterAssetsInputs.reload)
         {
             animator.SetTrigger("Reload");
