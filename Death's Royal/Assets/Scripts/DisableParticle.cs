@@ -15,9 +15,7 @@ public class DisableParticle : MonoBehaviour
     void Update()
     {
         if (gameObject.activeSelf)
-        {
             StartCoroutine(disableEft());
-        }
     }
 
     IEnumerator disableEft()

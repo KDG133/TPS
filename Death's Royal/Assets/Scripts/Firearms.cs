@@ -93,6 +93,8 @@ public class Firearms : MonoBehaviour
     {
         remainingAmmo -= 1;
         canFire = false;
+
+        SoundManager.Instance.PlaySound2D("ar");
         if (hitTransform != null)
         {
             BulletTarget target = hitTransform.GetComponent<BulletTarget>();
@@ -132,12 +134,12 @@ public class Firearms : MonoBehaviour
                 {
                     target.Hit(1.0f);
                     GameObject effectHit = EffectManager.Instance.GetValue("vfxHitRed");
-                    effectHit.transform.position = mouseWorldPoint;
+                    effectHit.transform.position = hit.point;
                 }
                 else
                 {
                     GameObject effectHit = EffectManager.Instance.GetValue("vfxHitYellow");
-                    effectHit.transform.position = mouseWorldPoint;
+                    effectHit.transform.position = hit.point;
                 }
             }
             StartCoroutine(SpawnTrail(hit.point));

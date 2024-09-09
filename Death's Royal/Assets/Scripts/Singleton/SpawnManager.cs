@@ -7,7 +7,7 @@ public class SpawnManager : Singleton<SpawnManager>
     public GameObject Zombie;
     public int spawnCount;
     [SerializeField] private Transform[] Spawnpoints;
-    [SerializeField] private Queue<GameObject> monsterQue;
+    private Queue<GameObject> monsterQue;
     // Start is called before the first frame update
     void Start()
     {

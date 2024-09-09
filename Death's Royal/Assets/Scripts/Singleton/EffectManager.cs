@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class EffectManager : Singleton<EffectManager>
 {
+    public int spawnCount;
+
     [SerializeField] private GameObject[] effects;
     private Dictionary<string, Queue<GameObject>> effectDictionary;
-    public int spawnCount;
     // Start is called before the first frame update
     void Start()
     {
