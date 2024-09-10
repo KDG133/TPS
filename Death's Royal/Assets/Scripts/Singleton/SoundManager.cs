@@ -37,6 +37,8 @@ public class SoundManager : Singleton<SoundManager>
             for (int j = 0; j < spawnCount; ++j)
                 AddValue(typeName);
         }
+
+        PlaySound2D("bgm", true, SoundType.BGM);
     }
 
     private void AddQueue(string name)
@@ -74,14 +76,14 @@ public class SoundManager : Singleton<SoundManager>
             Debug.Log(name + "doesn't exist");
     }
 
-    public void PlaySound2D(string clipname, SoundType soundType = SoundType.EFFECT, bool isLoop = false)
+    public void PlaySound2D(string clipname, bool isLoop = false, SoundType soundType = SoundType.EFFECT)
     {
         if(SoundDictionary["TempSoundPlayer_2D"].Count > 0)
         {
             GameObject soundObj = SoundDictionary["TempSoundPlayer_2D"].Dequeue();
             TempSoundPlayer soundPlayer = soundObj.GetComponent<TempSoundPlayer>();
             soundObj.SetActive(true);
-            soundPlayer.Play(GetClip(clipname));
+            soundPlayer.Play(GetClip(clipname), isLoop);
         }
         else
         {
@@ -89,11 +91,11 @@ public class SoundManager : Singleton<SoundManager>
             GameObject soundObj = SoundDictionary["TempSoundPlayer_2D"].Dequeue();
             TempSoundPlayer soundPlayer = soundObj.GetComponent<TempSoundPlayer>();
             soundObj.SetActive(true);
-            soundPlayer.Play(GetClip(clipname));
+            soundPlayer.Play(GetClip(clipname), isLoop);
         }       
     }
 
-    public void PlaySound3D(string clipname, Transform audioTarget, SoundType soundType = SoundType.EFFECT, bool isLoop = false)
+    public void PlaySound3D(string clipname, Transform audioTarget, bool isLoop = false, SoundType soundType = SoundType.EFFECT)
     {
         if (SoundDictionary["TempSoundPlayer_3D"].Count > 0)
         {
@@ -101,7 +103,7 @@ public class SoundManager : Singleton<SoundManager>
             soundObj.transform.position = audioTarget.position;
             TempSoundPlayer soundPlayer = soundObj.GetComponent<TempSoundPlayer>();
             soundObj.SetActive(true);
-            soundPlayer.Play(GetClip(clipname));
+            soundPlayer.Play(GetClip(clipname), isLoop);
         }
         else
         {
@@ -110,7 +112,7 @@ public class SoundManager : Singleton<SoundManager>
             soundObj.transform.position = audioTarget.position;
             TempSoundPlayer soundPlayer = soundObj.GetComponent<TempSoundPlayer>();
             soundObj.SetActive(true);
-            soundPlayer.Play(GetClip(clipname));
+            soundPlayer.Play(GetClip(clipname), isLoop);
         }
     }
 

@@ -36,35 +36,47 @@ public class UpgradeManager : Singleton<UpgradeManager>
     {
         if (magazinePoint < maxUpgradePoint && upgradePoint >= upgradeCost)
         {
+            SoundManager.Instance.PlaySound2D("ui_upgrade");
             upgradePoint -= upgradeCost;
             ++magazinePoint;
         }
+        else
+            SoundManager.Instance.PlaySound2D("ui_denied");
     }
 
     public void Upgrade_ReloadSpeed()
     {
         if (reloadPoint < maxUpgradePoint && upgradePoint >= upgradeCost)
         {
+            SoundManager.Instance.PlaySound2D("ui_upgrade");
             upgradePoint -= upgradeCost;
             ++reloadPoint;
         }
+        else
+            SoundManager.Instance.PlaySound2D("ui_denied");
     }
 
     public void Upgrade_MoveSpeed()
     {
         if (moveSpeedPoint < maxUpgradePoint && upgradePoint >= upgradeCost)
         {
+            SoundManager.Instance.PlaySound2D("ui_upgrade");
             upgradePoint -= upgradeCost;
             ++moveSpeedPoint;
         }
+        else
+            SoundManager.Instance.PlaySound2D("ui_denied");
     }
 
     public void Upgrade_FireRate()
     {
         if (fireRatePoint < maxUpgradePoint && upgradePoint >= upgradeCost)
         {
+            SoundManager.Instance.PlaySound2D("ui_upgrade");
             upgradePoint -= upgradeCost;
             ++fireRatePoint;
         }
+        else
+            SoundManager.Instance.PlaySound2D("ui_denied");
     }
 }

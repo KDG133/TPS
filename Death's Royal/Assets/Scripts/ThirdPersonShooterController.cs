@@ -118,6 +118,30 @@ public class ThirdPersonShooterController : MonoBehaviour
         WeaponManager.Instance.CurrentFirearm.EndReload();
     }
 
+    private void walkLeft()
+    {
+        if(thirdPersonController._applyspeed < 4f)
+            SoundManager.Instance.PlaySound2D("robot_walk");
+    }
+
+    private void walkRight()
+    {
+        if (thirdPersonController._applyspeed < 4f)
+            SoundManager.Instance.PlaySound2D("robot_walk");
+    }
+
+    private void runLeft()
+    {
+        if (thirdPersonController._applyspeed >= 4f)
+            SoundManager.Instance.PlaySound2D("robot_walk");
+    }
+
+    private void runRight()
+    {
+        if (thirdPersonController._applyspeed >= 4f)
+            SoundManager.Instance.PlaySound2D("robot_walk");
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.layer == LayerMask.NameToLayer("MonsterCol"))

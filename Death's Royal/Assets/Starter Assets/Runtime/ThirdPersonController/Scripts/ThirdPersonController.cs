@@ -84,10 +84,10 @@ namespace StarterAssets
         private float _cinemachineTargetPitch;
 
         // player
-        static public int _movespeedPoint; // test
+        static public int _movespeedPoint;
+        public float _applyspeed;
         private float _speed;
-        private float _applyspeed; // test
-        private float _movespeedRatio = 0.25f; // test
+        private float _movespeedRatio = 0.25f;
         private float _animationBlend;
         private float _targetRotation = 0.0f;
         private float _rotationVelocity;
@@ -227,6 +227,7 @@ namespace StarterAssets
             // set target speed based on move speed, sprint speed and if sprint is pressed
             float targetSpeed = _input.sprint ? SprintSpeed : MoveSpeed;
             targetSpeed = targetSpeed * (1.0f + (_movespeedPoint * _movespeedRatio));
+            _applyspeed = targetSpeed;
 
             // a simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon
 

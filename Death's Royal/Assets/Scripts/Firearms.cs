@@ -27,8 +27,8 @@ public class Firearms : MonoBehaviour
     [SerializeField] private float spreadAngle = 0;
     [SerializeField] private float range = 0;
     [SerializeField] private float camIntensity = 0;
-    
-    
+
+    private bool canReload = true;
     private bool canFire = true;
     private bool reloading = false;
     private Vector3 mouseWorldPosition = Vector3.zero;
@@ -42,6 +42,11 @@ public class Firearms : MonoBehaviour
     {
         get { return remainingAmmo; }
     }
+    public bool Reloading
+    {
+        get { return reloading; }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -61,6 +66,19 @@ public class Firearms : MonoBehaviour
     {
         if (canFire && remainingAmmo > 0 && !reloading)
         {
+            switch (GunType)
+            {
+                case gunType.AR:
+                    SoundManager.Instance.PlaySound2D("ar");
+                    break;
+                case gunType.SG:
+                    SoundManager.Instance.PlaySound2D("shotgun");
+                    break;
+                case gunType.SMG:
+                    SoundManager.Instance.PlaySound2D("mp5");
+                    break;
+            }
+
             if (GunType == gunType.SG)
             {
                 muzzleLight.SetActive(true);
@@ -80,12 +98,18 @@ public class Firearms : MonoBehaviour
     public void Reload()
     {
         reloading = true;
+        if (canReload)
+        {
+            SoundManager.Instance.PlaySound2D("Reload");
+            canReload = false;
+        }
     }
 
     //Animation Event Function
     public void EndReload()
     {
         reloading = false;
+        canReload = true;
         remainingAmmo = applyMaxAmmo;
     }
 
@@ -94,7 +118,6 @@ public class Firearms : MonoBehaviour
         remainingAmmo -= 1;
         canFire = false;
 
-        SoundManager.Instance.PlaySound2D("ar");
         if (hitTransform != null)
         {
             BulletTarget target = hitTransform.GetComponent<BulletTarget>();
