@@ -7,10 +7,12 @@ public class WeaponManager : MonoBehaviour
     public static WeaponManager Instance { get; private set; }
     [SerializeField] private Firearms[] firearms;
     [SerializeField] private Firearms currentFirearm = null;
+    public bool isAiming {  get; set; }
     public Firearms CurrentFirearm
     {
         get { return currentFirearm; }
     }
+
     private void Awake()
     {
         Instance = this;
@@ -24,7 +26,7 @@ public class WeaponManager : MonoBehaviour
     // Update is called once per frame
     private void Update()
     {
-        if(!currentFirearm.Reloading)
+        if(!currentFirearm.Reloading && !isAiming)
         {
             if (Input.GetKeyDown(KeyCode.Alpha1))
             {

@@ -165,7 +165,7 @@ namespace StarterAssets
 
             if(!_isPause)
             {
-                JumpAndGravity();
+                //JumpAndGravity();
                 GroundedCheck();
                 Move();
             }           

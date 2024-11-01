@@ -8,6 +8,7 @@ public class UpgradeManager : Singleton<UpgradeManager>
 {
     public enum UpgradeType { MAGAZINE, RELOAD, MOVESPEED, FIRERATE, END };
     public TextMeshProUGUI remainPoints;
+    public WarningText warningText;
     public int upgradePoint = 0;
     public int magazinePoint = 0;
     public int reloadPoint = 0;
@@ -41,7 +42,10 @@ public class UpgradeManager : Singleton<UpgradeManager>
             ++magazinePoint;
         }
         else
+        {
             SoundManager.Instance.PlaySound2D("ui_denied");
+            warningText.ActiveWarning();
+        }
     }
 
     public void Upgrade_ReloadSpeed()
@@ -53,7 +57,10 @@ public class UpgradeManager : Singleton<UpgradeManager>
             ++reloadPoint;
         }
         else
+        {
             SoundManager.Instance.PlaySound2D("ui_denied");
+            warningText.ActiveWarning();
+        }
     }
 
     public void Upgrade_MoveSpeed()
@@ -65,7 +72,10 @@ public class UpgradeManager : Singleton<UpgradeManager>
             ++moveSpeedPoint;
         }
         else
+        {
             SoundManager.Instance.PlaySound2D("ui_denied");
+            warningText.ActiveWarning();
+        }
     }
 
     public void Upgrade_FireRate()
@@ -77,6 +87,9 @@ public class UpgradeManager : Singleton<UpgradeManager>
             ++fireRatePoint;
         }
         else
+        {
             SoundManager.Instance.PlaySound2D("ui_denied");
+            warningText.ActiveWarning();
+        }
     }
 }

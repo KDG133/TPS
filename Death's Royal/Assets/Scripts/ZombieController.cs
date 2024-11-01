@@ -42,7 +42,7 @@ public class ZombieController : BulletTarget
             animator.SetTrigger("Dead");
         }
 
-        if (!isDead)
+        if (!isDead && gameObject.activeSelf)
             ChasePlayer();
         else
             StartCoroutine(DeadDelete());

@@ -8,6 +8,7 @@ public class PauseMenu : MonoBehaviour
     [SerializeField] private GameObject pauseMenuBG;
     [SerializeField] private GameObject pauseMenus;
     [SerializeField] private GameObject ShopMenus;
+    private bool isShop = false;
 
     void Start()
     {
@@ -20,21 +21,11 @@ public class PauseMenu : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.Escape))
         {
             if(!ThirdPersonController._isPause) 
-            {
-                Time.timeScale = 0f;
-                pauseMenuBG.SetActive(true);
-                pauseMenus.SetActive(true);
-                ThirdPersonController._isPause = true;
-                CursorActive();
-            }
-            else if (ThirdPersonController._isPause)
-            {
-                Time.timeScale = 1.0f;
-                pauseMenuBG.SetActive(false);
-                pauseMenus.SetActive(false);
-                ThirdPersonController._isPause = false;
-                CursorLock();
-            }
+                ActivePause();
+            else if (ThirdPersonController._isPause && !isShop)
+                DeActivePause();
+            else if (ThirdPersonController._isPause && isShop)
+                DeActiveShop();
         }
     }
 
@@ -61,13 +52,33 @@ public class PauseMenu : MonoBehaviour
 
     public void ActiveShopMenu()
     {
+        isShop = true;
         pauseMenus.SetActive(false);
         ShopMenus.SetActive(true);
     }
 
     public void DeActiveShop()
     {
+        isShop = false;
         pauseMenus.SetActive(true);
         ShopMenus.SetActive(false);
+    }
+
+    public void ActivePause()
+    {
+        Time.timeScale = 0f;
+        ThirdPersonController._isPause = true;
+        pauseMenuBG.SetActive(true);
+        pauseMenus.SetActive(true);
+        CursorActive();
+    }
+
+    public void DeActivePause()
+    {
+        Time.timeScale = 1.0f;
+        ThirdPersonController._isPause = false;
+        pauseMenuBG.SetActive(false);
+        pauseMenus.SetActive(false);
+        CursorLock();
     }
 }

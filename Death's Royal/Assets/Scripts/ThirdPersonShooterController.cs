@@ -70,6 +70,7 @@ public class ThirdPersonShooterController : MonoBehaviour
     {
         if (starterAssetsInputs.aim)
         {
+            WeaponManager.Instance.isAiming = true;
             Crosshair.SetActive(true);
             aimRigWeight = 1f;
             aimVirtualCamera.gameObject.SetActive(true);
@@ -85,6 +86,7 @@ public class ThirdPersonShooterController : MonoBehaviour
         }
         else
         {
+            WeaponManager.Instance.isAiming = false;
             aimRigWeight = 0f;
             Crosshair.SetActive(false);
             aimVirtualCamera.gameObject.SetActive(false);
@@ -97,7 +99,7 @@ public class ThirdPersonShooterController : MonoBehaviour
 
     private void Shoot()
     {
-        if (starterAssetsInputs.shoot)
+        if (starterAssetsInputs.aim && starterAssetsInputs.shoot)
         {
             WeaponManager.Instance.CurrentFirearm.Shoot();
         }
@@ -105,8 +107,10 @@ public class ThirdPersonShooterController : MonoBehaviour
 
     private void Reload()
     {
+        bool checkReload = WeaponManager.Instance.CurrentFirearm.MaxAmmo > WeaponManager.Instance.CurrentFirearm.RemainingAmmo;
+
         animator.SetFloat("ReloadSpeed", reloadSpeed + (reloadPlusRatio * UpgradeManager.Instance.reloadPoint));
-        if (starterAssetsInputs.reload)
+        if (starterAssetsInputs.reload && checkReload && !WeaponManager.Instance.CurrentFirearm.Reloading)
         {
             animator.SetTrigger("Reload");
             WeaponManager.Instance.CurrentFirearm.Reload();

@@ -26,7 +26,7 @@ public class Firearms : MonoBehaviour
     [SerializeField] private int shotgunPellets = 0;
     [SerializeField] private float spreadAngle = 0;
     [SerializeField] private float range = 0;
-    [SerializeField] private float camIntensity = 0;
+    [SerializeField] private float camIntensity = 0.7f;
 
     private bool canReload = true;
     private bool canFire = true;
@@ -83,14 +83,14 @@ public class Firearms : MonoBehaviour
             {
                 muzzleLight.SetActive(true);
                 StartCoroutine(ShotGunFire(mouseWorldPosition));
-                CinemachineShake.Instance.ShakeCamera(.7f, 60.0f / applyFirerate);
+                CinemachineShake.Instance.ShakeCamera(camIntensity, 60.0f / applyFirerate);
             }
             else
             {
                 muzzleLight.SetActive(true);
                 StartCoroutine(Fire(hitTransform, mouseWorldPosition));
                 StartCoroutine(SpawnTrail(mouseWorldPosition));
-                CinemachineShake.Instance.ShakeCamera(.7f, 60.0f / applyFirerate);
+                CinemachineShake.Instance.ShakeCamera(camIntensity, 60.0f / applyFirerate);
             }
         }              
     }
