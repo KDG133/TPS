@@ -20,7 +20,8 @@ public class UpgradeManager : Singleton<UpgradeManager>
     // Start is called before the first frame update
     void Start()
     {
-        
+        remainPoints = GameObject.Find("RemainPoint").GetComponent<TextMeshProUGUI>();
+        warningText = GameObject.Find("PlayerCanvas").transform.Find("ShopUI").transform.Find("Point Warning").GetComponent<WarningText>();
     }
 
     // Update is called once per frame

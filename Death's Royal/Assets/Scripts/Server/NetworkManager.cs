@@ -1,38 +1,42 @@
-using ServerCore;
-using DummyClient;
-using System.Collections;
+﻿using ServerCore;
+using System;
 using System.Collections.Generic;
 using System.Net;
-using UnityEngine;
-using System;
+using Google.Protobuf;
 
-public class NetworkManager : MonoBehaviour
+public class NetworkManager
 {
-    ServerSession _session = new ServerSession();
+	ServerSession _session = new ServerSession();
 
-    public void Send(ArraySegment<byte> sendBuff)
-    {
-        _session.Send(sendBuff);
-    }
+	public void Send(ArraySegment<byte> sendBuff)
+	{
+		_session.Send(sendBuff);
+	}
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        // DNS
-        string host = Dns.GetHostName();
-        IPHostEntry ipHost = Dns.GetHostEntry(host);
-        IPAddress ipAddr = ipHost.AddressList[0];
-        IPEndPoint endPoint = new IPEndPoint(ipAddr, 7777);
+	public void Init()
+	{
+		// DNS (Domain Name System)
+		string host = Dns.GetHostName();
+		IPHostEntry ipHost = Dns.GetHostEntry(host);
+		IPAddress ipAddr = ipHost.AddressList[0];
+		IPEndPoint endPoint = new IPEndPoint(ipAddr, 7777);
 
-        Connector connector = new Connector();
-        connector.Connect(endPoint, () => { return _session; }, 1);
-    }
+		Connector connector = new Connector();
 
-    // Update is called once per frame
-    void Update()
-    {
-        List<IPacket> list = PacketQueue.Instance.PopAll();
-        foreach(IPacket packet in list)
-            PacketManager.Instance.HandlePacket(_session, packet);
-    }
+		connector.Connect(endPoint,
+			() => { return _session; },
+			1);
+	}
+
+	public void Update()
+	{
+		List<PacketMessage> list = PacketQueue.Instance.PopAll();
+		foreach (PacketMessage packet in list)
+		{
+			Action<PacketSession, IMessage> handler = PacketManager.Instance.GetPacketHandler(packet.Id);
+			if (handler != null)
+				handler.Invoke(_session, packet.Message);
+		}	
+	}
+
 }
