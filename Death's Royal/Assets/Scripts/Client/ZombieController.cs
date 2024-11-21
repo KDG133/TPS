@@ -91,17 +91,17 @@ public class ZombieController : BulletTarget
     {
         if (isDead == true && isDead != preisDead)
         {
-            SoundManager.Instance.PlaySound3D("zombie_die", gameObject.transform);
+            Managers.Sound.PlaySound3D("zombie_die", gameObject.transform);
         }
         yield return new WaitForSeconds(3.2f);
-        SpawnManager.Instance.insertQueue(gameObject);
+        Managers.Spawn.insertQueue(gameObject);
         OnEnable();
     }
 
     //Animation Event Function
     private void Start_Zombie_Attack()
     {
-        SoundManager.Instance.PlaySound3D("zombie_attack", gameObject.transform);
+        Managers.Sound.PlaySound3D("zombie_attack", gameObject.transform);
         attackCollider.enabled = true;
     }
 

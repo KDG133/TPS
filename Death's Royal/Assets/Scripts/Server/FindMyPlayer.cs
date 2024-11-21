@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class FindMyPlayer : MonoBehaviour
 {
-    MyPlayer _myPlayer;
+    MyTPController _myPlayer;
     CinemachineVirtualCamera _followCam;
     // Start is called before the first frame update
     void Start()
@@ -26,7 +26,7 @@ public class FindMyPlayer : MonoBehaviour
         {
             yield return new WaitForSeconds(0.05f);
 
-            _myPlayer = GameObject.Find("MyPlayer").GetComponent<MyPlayer>();
+            _myPlayer = GameObject.Find("MyPlayer").GetComponent<MyTPController>();
         }
     }
 }

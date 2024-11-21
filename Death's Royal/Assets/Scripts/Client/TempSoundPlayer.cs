@@ -18,7 +18,7 @@ public class TempSoundPlayer : MonoBehaviour
     void Update()
     {
         if (!audioSource.isPlaying && !loop)
-            SoundManager.Instance.insertValue(gameObject.name, gameObject);
+            Managers.Sound.insertValue(gameObject.name, gameObject);
     }
 
     public void InitSound2D()

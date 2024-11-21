@@ -20,19 +20,19 @@ public class UpgradeUI : MonoBehaviour
         switch (upgradeType)
         {
             case UpgradeManager.UpgradeType.MAGAZINE:
-                for (int i = 0; i < UpgradeManager.Instance.magazinePoint; i++)
+                for (int i = 0; i < Managers.Upgrade.magazinePoint; i++)
                     images[i].sprite = change;
                 return;
             case UpgradeManager.UpgradeType.RELOAD:
-                for (int i = 0; i < UpgradeManager.Instance.reloadPoint; i++)
+                for (int i = 0; i < Managers.Upgrade.reloadPoint; i++)
                     images[i].sprite = change;
                 return;
             case UpgradeManager.UpgradeType.MOVESPEED:
-                for (int i = 0; i < UpgradeManager.Instance.moveSpeedPoint; i++)
+                for (int i = 0; i < Managers.Upgrade.moveSpeedPoint; i++)
                     images[i].sprite = change;
                 return;
             case UpgradeManager.UpgradeType.FIRERATE:
-                for (int i = 0; i < UpgradeManager.Instance.fireRatePoint; i++)
+                for (int i = 0; i < Managers.Upgrade.fireRatePoint; i++)
                     images[i].sprite = change;
                 return;
         }     

@@ -1,6 +1,8 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 #if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
+using Random = UnityEngine.Random;
 #endif
 
 /* Note: animations are called via the controller for both the character and capsule using animator null checks
@@ -12,7 +14,7 @@ namespace StarterAssets
 #if ENABLE_INPUT_SYSTEM
     [RequireComponent(typeof(PlayerInput))]
 #endif
-    public class ThirdPersonController : MonoBehaviour
+    public class ThirdPersonController : ObjectId
     {
         [Header("Player")]
         [Tooltip("Move speed of the character in m/s")]
@@ -80,45 +82,45 @@ namespace StarterAssets
         static public bool _isPause = false;
 
         // cinemachine
-        private float _cinemachineTargetYaw;
-        private float _cinemachineTargetPitch;
+        protected float _cinemachineTargetYaw;
+        protected float _cinemachineTargetPitch;
 
         // player
         static public int _movespeedPoint;
         public float _applyspeed;
-        private float _speed;
-        private float _movespeedRatio = 0.25f;
-        private float _animationBlend;
-        private float _targetRotation = 0.0f;
-        private float _rotationVelocity;
-        private float _verticalVelocity;
+        protected float _speed;
+        protected float _movespeedRatio = 0.25f;
+        protected float _animationBlend;
+        protected float _targetRotation = 0.0f;
+        protected float _rotationVelocity;
+        protected float _verticalVelocity;
         private float _terminalVelocity = 53.0f;
 
         // timeout deltatime
-        private float _jumpTimeoutDelta;
-        private float _fallTimeoutDelta;
+        protected float _jumpTimeoutDelta;
+        protected float _fallTimeoutDelta;
 
         // animation IDs
-        private int _animIDSpeed;
-        private int _animIDGrounded;
+        protected int _animIDSpeed;
+        protected int _animIDGrounded;
         private int _animIDJump;
         private int _animIDFreeFall;
-        private int _animIDMotionSpeed;
+        protected int _animIDMotionSpeed;
 
 #if ENABLE_INPUT_SYSTEM
-        private PlayerInput _playerInput;
+        protected PlayerInput _playerInput;
 #endif
-        private Animator _animator;
-        private CharacterController _controller;
-        private StarterAssetsInputs _input;
-        private GameObject _mainCamera;
-        private bool _rotateOnMove = true;
+        protected Animator _animator;
+        protected CharacterController _controller;
+        protected StarterAssetsInputs _input;
+        protected GameObject _mainCamera;
+        protected bool _rotateOnMove = true;
 
-        private const float _threshold = 0.01f;
+        protected const float _threshold = 0.01f;
 
-        private bool _hasAnimator;
+        protected bool _hasAnimator;
 
-        private bool IsCurrentDeviceMouse
+        protected bool IsCurrentDeviceMouse
         {
             get
             {
@@ -132,11 +134,11 @@ namespace StarterAssets
 
         private void Awake()
         {
-            // get a reference to our main camera
-            if (_mainCamera == null)
-            {
-                _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
-            }
+            //// get a reference to our main camera
+            //if (_mainCamera == null)
+            //{
+            //    _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
+            //}
         }
 
         private void Start()
@@ -167,17 +169,17 @@ namespace StarterAssets
             {
                 //JumpAndGravity();
                 GroundedCheck();
-                Move();
+                //Move();
             }           
         }
 
         private void LateUpdate()
         {
-            if (!_isPause)
-                CameraRotation();
+            //if (!_isPause)
+            //    CameraRotation();
         }
 
-        private void AssignAnimationIDs()
+        protected void AssignAnimationIDs()
         {
             _animIDSpeed = Animator.StringToHash("Speed");
             _animIDGrounded = Animator.StringToHash("Grounded");
@@ -364,7 +366,7 @@ namespace StarterAssets
             }
         }
 
-        private static float ClampAngle(float lfAngle, float lfMin, float lfMax)
+        public static float ClampAngle(float lfAngle, float lfMin, float lfMax)
         {
             if (lfAngle < -360f) lfAngle += 360f;
             if (lfAngle > 360f) lfAngle -= 360f;

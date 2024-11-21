@@ -15,4 +15,12 @@ class PacketHandler
 
 		Console.WriteLine(chatPacket.Context);
 	}
+
+    public static void C_MoveHandler(PacketSession session, IMessage packet)
+    {
+        C_Move movePacket = packet as C_Move;
+        ClientSession serverSession = session as ClientSession;
+
+        
+    }
 }

@@ -56,8 +56,8 @@ public class Firearms : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        applyMaxAmmo = (int)(maxAmmo * (1.0f + (UpgradeManager.Instance.magazinePoint * AmmoRatio)));
-        applyFirerate = Firerate * (1.0f + (UpgradeManager.Instance.fireRatePoint * firerateRatio));
+        applyMaxAmmo = (int)(maxAmmo * (1.0f + (Managers.Upgrade.magazinePoint * AmmoRatio)));
+        applyFirerate = Firerate * (1.0f + (Managers.Upgrade.fireRatePoint * firerateRatio));
         hitTransform = tpsController.playerHitTransform;
         mouseWorldPosition = tpsController.playerMouseWorldPosition;
     }
@@ -69,13 +69,13 @@ public class Firearms : MonoBehaviour
             switch (GunType)
             {
                 case gunType.AR:
-                    SoundManager.Instance.PlaySound2D("ar");
+                    Managers.Sound.PlaySound2D("ar");
                     break;
                 case gunType.SG:
-                    SoundManager.Instance.PlaySound2D("shotgun");
+                    Managers.Sound.PlaySound2D("shotgun");
                     break;
                 case gunType.SMG:
-                    SoundManager.Instance.PlaySound2D("mp5");
+                    Managers.Sound.PlaySound2D("mp5");
                     break;
             }
 
@@ -100,7 +100,7 @@ public class Firearms : MonoBehaviour
         reloading = true;
         if (canReload)
         {
-            SoundManager.Instance.PlaySound2D("Reload");
+            Managers.Sound.PlaySound2D("Reload");
             canReload = false;
         }
     }
@@ -124,12 +124,12 @@ public class Firearms : MonoBehaviour
             if (target != null)
             {
                 target.Hit(1.0f);
-                GameObject effectHit = EffectManager.Instance.GetValue("vfxHitRed");
+                GameObject effectHit = Managers.Effect.GetValue("vfxHitRed");
                 effectHit.transform.position = mouseWorldPoint;
             }
             else
-            {
-                GameObject effectHit = EffectManager.Instance.GetValue("vfxHitYellow");
+            {               
+                GameObject effectHit = Managers.Effect.GetValue("vfxHitYellow");
                 effectHit.transform.position = mouseWorldPoint;
             }
         }
@@ -156,12 +156,12 @@ public class Firearms : MonoBehaviour
                 if (target != null)
                 {
                     target.Hit(1.0f);
-                    GameObject effectHit = EffectManager.Instance.GetValue("vfxHitRed");
+                    GameObject effectHit = Managers.Effect.GetValue("vfxHitRed");
                     effectHit.transform.position = hit.point;
                 }
                 else
                 {
-                    GameObject effectHit = EffectManager.Instance.GetValue("vfxHitYellow");
+                    GameObject effectHit = Managers.Effect.GetValue("vfxHitYellow");
                     effectHit.transform.position = hit.point;
                 }
             }

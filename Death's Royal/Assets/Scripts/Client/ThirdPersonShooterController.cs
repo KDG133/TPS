@@ -109,7 +109,7 @@ public class ThirdPersonShooterController : MonoBehaviour
     {
         bool checkReload = WeaponManager.Instance.CurrentFirearm.MaxAmmo > WeaponManager.Instance.CurrentFirearm.RemainingAmmo;
 
-        animator.SetFloat("ReloadSpeed", reloadSpeed + (reloadPlusRatio * UpgradeManager.Instance.reloadPoint));
+        animator.SetFloat("ReloadSpeed", reloadSpeed + (reloadPlusRatio * Managers.Upgrade.reloadPoint));
         if (starterAssetsInputs.reload && checkReload && !WeaponManager.Instance.CurrentFirearm.Reloading)
         {
             animator.SetTrigger("Reload");
@@ -124,26 +124,26 @@ public class ThirdPersonShooterController : MonoBehaviour
 
     private void walkLeft()
     {
-        if(thirdPersonController._applyspeed < 4f)
-            SoundManager.Instance.PlaySound2D("robot_walk");
+        if (thirdPersonController._applyspeed < 4f)
+            Managers.Sound.PlaySound2D("robot_walk");
     }
 
     private void walkRight()
     {
         if (thirdPersonController._applyspeed < 4f)
-            SoundManager.Instance.PlaySound2D("robot_walk");
+            Managers.Sound.PlaySound2D("robot_walk");
     }
 
     private void runLeft()
     {
         if (thirdPersonController._applyspeed >= 4f)
-            SoundManager.Instance.PlaySound2D("robot_walk");
+            Managers.Sound.PlaySound2D("robot_walk");
     }
 
     private void runRight()
     {
         if (thirdPersonController._applyspeed >= 4f)
-            SoundManager.Instance.PlaySound2D("robot_walk");
+            Managers.Sound.PlaySound2D("robot_walk");
     }
 
     private void OnTriggerEnter(Collider other)

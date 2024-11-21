@@ -21,6 +21,6 @@ public class DisableParticle : MonoBehaviour
     IEnumerator disableEft()
     {
         yield return new WaitForSeconds(GetComponent<ParticleSystem>().main.duration);
-        EffectManager.Instance.insertValue(eftName, gameObject);
+        Managers.Effect.insertValue(eftName, gameObject);
     }
 }

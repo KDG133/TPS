@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class PlayerInfoUI : MonoBehaviour
 {
-    MyPlayer _myPlayer;
+    MyTPController _myPlayer;
     public Transform uiPos;
     public Transform playerInfo;
     public Image healthBar;
@@ -67,7 +67,7 @@ public class PlayerInfoUI : MonoBehaviour
         {
             yield return new WaitForSeconds(0.05f);
 
-            _myPlayer = GameObject.Find("MyPlayer").GetComponent<MyPlayer>();
+            _myPlayer = GameObject.Find("MyPlayer").GetComponent<MyTPController>();
             tpsController = _myPlayer.GetComponent<ThirdPersonShooterController>();
             
         }

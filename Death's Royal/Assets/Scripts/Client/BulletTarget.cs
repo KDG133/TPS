@@ -27,7 +27,7 @@ public class BulletTarget : MonoBehaviour
         if (isDead == true && isDead != preisDead)
         {
             preisDead = !preisDead;
-            UpgradeManager.Instance.upgradePoint += plusUpgradePoint;
+            Managers.Upgrade.upgradePoint += plusUpgradePoint;
         }
         else if(isDead == false && isDead != preisDead)
         {
