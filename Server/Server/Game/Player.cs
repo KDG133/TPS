@@ -1,15 +1,10 @@
 ﻿using Google.Protobuf.Protocol;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Server
 {
     public class Player
     {
-        public PlayerInfo Info { get; set; } = new PlayerInfo();
+        public PlayerInfo Info { get; set; } = new PlayerInfo() { PosInfo = new PositionInfo() };
         public GameRoom Room { get; set; }
         public ClientSession Session { get; set; }
     }

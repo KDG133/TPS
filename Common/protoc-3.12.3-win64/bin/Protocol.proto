@@ -32,16 +32,12 @@ message S_Despawn{
 }
 
 message C_Move{
-	float posX = 1;
-	float poxY = 2;
-	float poxZ = 3;
+	PositionInfo posInfo = 1;
 }
 
 message S_Move{
 	int32 playerID = 1;
-	float posX = 2;
-	float poxY = 3;
-	float poxZ = 4;
+	PositionInfo posInfo = 2;
 }
 
 message C_Chat {
@@ -52,10 +48,19 @@ message S_Chat {
   string context = 1;
 }
 
-message PlayerInfo{
+message PVector3 {
+	float x = 1;
+	float y = 2;
+	float z = 3;
+}
+
+message PlayerInfo {
 	int32 playerID = 1;
 	string name = 2;
-	float posX = 3;
-	float poxY = 4;
-	float poxZ = 5;
+	PositionInfo posInfo = 3;
+}
+
+message PositionInfo {
+	PVector3 moveDir = 1;
+	PVector3 pos = 2;
 }

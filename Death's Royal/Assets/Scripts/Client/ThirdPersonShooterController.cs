@@ -6,28 +6,28 @@ using StarterAssets;
 using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 using UnityEngine.Animations.Rigging;
+using Unity.VisualScripting;
 
 public class ThirdPersonShooterController : MonoBehaviour
 {
     public float Health = 100f;
     public float MaxHealth = 100f;
 
-    [SerializeField] private Rig aimRig;
-    [SerializeField] private CinemachineVirtualCamera aimVirtualCamera;
-    [SerializeField] private GameObject Crosshair;
-    [SerializeField] private float normalSensitivity;
-    [SerializeField] private float aimSensitivity;
-    [SerializeField] private LayerMask aimColliderLayerMask = new LayerMask();
-    [SerializeField] private Transform debugTransform;
+    [SerializeField] protected Rig aimRig;
+    [SerializeField] protected CinemachineVirtualCamera aimVirtualCamera;
+    [SerializeField] protected GameObject Crosshair;
+    [SerializeField] protected float normalSensitivity;
+    [SerializeField] protected float aimSensitivity;
+    [SerializeField] protected LayerMask aimColliderLayerMask = new LayerMask();
 
-    private StarterAssetsInputs starterAssetsInputs;
-    private ThirdPersonController thirdPersonController;
-    private Animator animator;
-    private float aimRigWeight;
-    private Vector3 mouseWorldPosition = Vector3.zero;
-    private Transform hitTransform = null;
-    private float reloadSpeed = 1.0f;
-    private float reloadPlusRatio = 0.25f;
+    protected StarterAssetsInputs starterAssetsInputs;
+    protected ThirdPersonController thirdPersonController;
+    protected Animator animator;
+    protected float aimRigWeight;
+    protected Vector3 mouseWorldPosition = Vector3.zero;
+    protected Transform hitTransform = null;
+    protected float reloadSpeed = 1.0f;
+    protected float reloadPlusRatio = 0.25f;
 
     public Vector3 playerMouseWorldPosition
     {
@@ -41,81 +41,82 @@ public class ThirdPersonShooterController : MonoBehaviour
 
     private void Awake()
     {
-        starterAssetsInputs = GetComponent<StarterAssetsInputs>();
-        thirdPersonController = GetComponent<ThirdPersonController>();
-        animator = GetComponent<Animator>();
+        //starterAssetsInputs = GetComponent<StarterAssetsInputs>();
+        //thirdPersonController = GetComponent<ThirdPersonController>();
+        //animator = GetComponent<Animator>();
+        //aimVirtualCamera = GameObject.Find("PlayerAimCamera").GetComponent<CinemachineVirtualCamera>();
+        //Crosshair = GameObject.Find("PlayerCanvas").transform.Find("Crosshair").gameObject;
     }
 
     private void Update()
     {
-        Raycast();
-        Aim();
-        Shoot();
-        Reload();
+        //Raycast();
+        //Aim();
+        //Shoot();
+        //Reload();
     }
 
-    private void Raycast()
-    {
-        Vector2 screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
-        Ray ray = Camera.main.ScreenPointToRay(screenCenterPoint);
-        if (Physics.Raycast(ray, out RaycastHit raycastHit, 999.0f, aimColliderLayerMask))
-        {
-            debugTransform.position = raycastHit.point;
-            mouseWorldPosition = raycastHit.point;
-            hitTransform = raycastHit.transform;
-        }
-    }
+    //private void Raycast()
+    //{
+    //    Vector2 screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
+    //    Ray ray = Camera.main.ScreenPointToRay(screenCenterPoint);
+    //    if (Physics.Raycast(ray, out RaycastHit raycastHit, 999.0f, aimColliderLayerMask))
+    //    {
+    //        mouseWorldPosition = raycastHit.point;
+    //        hitTransform = raycastHit.transform;
+    //    }
+    //}
 
-    private void Aim()
-    {
-        if (starterAssetsInputs.aim)
-        {
-            WeaponManager.Instance.isAiming = true;
-            Crosshair.SetActive(true);
-            aimRigWeight = 1f;
-            aimVirtualCamera.gameObject.SetActive(true);
-            thirdPersonController.SetSensitivity(aimSensitivity);
-            thirdPersonController.SetRotateOnMove(false);
-            animator.SetLayerWeight(1, Mathf.Lerp(animator.GetLayerWeight(1), 1f, Time.deltaTime * 10f));
+    //private void Aim()
+    //{
+    //    if (starterAssetsInputs.aim)
+    //    {
+    //        WeaponManager.Instance.isAiming = true;
+    //        Crosshair.SetActive(true);
+    //        aimRigWeight = 1f;
+    //        aimVirtualCamera.gameObject.SetActive(true);
+    //        thirdPersonController.SetSensitivity(aimSensitivity);
+    //        thirdPersonController.SetRotateOnMove(false);
+    //        animator.SetLayerWeight(1, Mathf.Lerp(animator.GetLayerWeight(1), 1f, Time.deltaTime * 10f));
 
-            Vector3 worldAimTarget = mouseWorldPosition;
-            worldAimTarget.y = transform.position.y;
-            Vector3 aimDirection = (worldAimTarget - transform.position).normalized;
+    //        Vector3 worldAimTarget = mouseWorldPosition;
+    //        worldAimTarget.y = transform.position.y;
+    //        Vector3 aimDirection = (worldAimTarget - transform.position).normalized;
 
-            transform.forward = Vector3.Lerp(transform.forward, aimDirection, Time.deltaTime * 20f);
-        }
-        else
-        {
-            WeaponManager.Instance.isAiming = false;
-            aimRigWeight = 0f;
-            Crosshair.SetActive(false);
-            aimVirtualCamera.gameObject.SetActive(false);
-            thirdPersonController.SetSensitivity(normalSensitivity);
-            thirdPersonController.SetRotateOnMove(true);
-            animator.SetLayerWeight(1, Mathf.Lerp(animator.GetLayerWeight(1), 0f, Time.deltaTime * 10f));
-        }
-        aimRig.weight = Mathf.Lerp(aimRig.weight, aimRigWeight, Time.deltaTime * 20f);
-    }
+    //        transform.forward = Vector3.Lerp(transform.forward, aimDirection, Time.deltaTime * 20f);
+    //    }
+    //    else
+    //    {
+    //        WeaponManager.Instance.isAiming = false;
+    //        aimRigWeight = 0f;
+    //        Crosshair.SetActive(false);
+    //        aimVirtualCamera.gameObject.SetActive(false);
+    //        thirdPersonController.SetSensitivity(normalSensitivity);
+    //        thirdPersonController.SetRotateOnMove(true);
+    //        animator.SetLayerWeight(1, Mathf.Lerp(animator.GetLayerWeight(1), 0f, Time.deltaTime * 10f));
+    //    }
+    //    aimRig.weight = Mathf.Lerp(aimRig.weight, aimRigWeight, Time.deltaTime * 20f);
+    //}
 
-    private void Shoot()
-    {
-        if (starterAssetsInputs.aim && starterAssetsInputs.shoot)
-        {
-            WeaponManager.Instance.CurrentFirearm.Shoot();
-        }
-    }
+    //private void Shoot()
+    //{
+    //    if (starterAssetsInputs.aim && starterAssetsInputs.shoot)
+    //    {
+    //        WeaponManager.Instance.CurrentFirearm.Shoot();
+    //    }
+    //}
 
-    private void Reload()
-    {
-        bool checkReload = WeaponManager.Instance.CurrentFirearm.MaxAmmo > WeaponManager.Instance.CurrentFirearm.RemainingAmmo;
+    //private void Reload()
+    //{
+    //    bool checkReload = WeaponManager.Instance.CurrentFirearm.MaxAmmo > WeaponManager.Instance.CurrentFirearm.RemainingAmmo;
 
-        animator.SetFloat("ReloadSpeed", reloadSpeed + (reloadPlusRatio * Managers.Upgrade.reloadPoint));
-        if (starterAssetsInputs.reload && checkReload && !WeaponManager.Instance.CurrentFirearm.Reloading)
-        {
-            animator.SetTrigger("Reload");
-            WeaponManager.Instance.CurrentFirearm.Reload();
-        }
-    }
+    //    animator.SetFloat("ReloadSpeed", reloadSpeed + (reloadPlusRatio * Managers.Upgrade.reloadPoint));
+    //    if (starterAssetsInputs.reload && checkReload && !WeaponManager.Instance.CurrentFirearm.Reloading)
+    //    {
+    //        animator.SetTrigger("Reload");
+    //        WeaponManager.Instance.CurrentFirearm.Reload();
+    //    }
+    //}
 
     private void End_Reload()
     {

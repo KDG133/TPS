@@ -13,18 +13,18 @@ public class PlayerInfoUI : MonoBehaviour
     public Image healthBar;
     public TextMeshProUGUI remainAmmotxt;
     public TextMeshProUGUI maxAmmotxt;
-    public ThirdPersonShooterController tpsController;
+    public MyTPSController tpsController;
 
     public float lerpSpeed;
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine("FindmyPlayer");
     }
 
     // Update is called once per frame
     void Update()
     {
+        FindMyPlayer();
         lerpSpeed = 3f * Time.deltaTime;
         FollowUI();
         HealthBarFill();
@@ -61,15 +61,12 @@ public class PlayerInfoUI : MonoBehaviour
         uiPos = _myPlayer.transform.GetChild(1).transform;
     }
 
-    IEnumerator FindmyPlayer()
+    void FindMyPlayer()
     {
-        while (true)
+        while (_myPlayer == null || tpsController == null)
         {
-            yield return new WaitForSeconds(0.05f);
-
             _myPlayer = GameObject.Find("MyPlayer").GetComponent<MyTPController>();
-            tpsController = _myPlayer.GetComponent<ThirdPersonShooterController>();
-            
+            tpsController = _myPlayer.GetComponent<MyTPSController>();
         }
     }
 }

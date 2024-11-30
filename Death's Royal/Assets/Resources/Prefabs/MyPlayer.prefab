@@ -1398,10 +1398,10 @@ GameObject:
   - component: {fileID: 5729260774369602309}
   - component: {fileID: 8119544971815883090}
   - component: {fileID: 3087511371372868710}
-  - component: {fileID: 7051577575795973785}
   - component: {fileID: 6705748369188527839}
   - component: {fileID: 8799059842461600386}
   - component: {fileID: -5261286319425284250}
+  - component: {fileID: -842399801404949529}
   m_Layer: 9
   m_Name: MyPlayer
   m_TagString: Player
@@ -1628,29 +1628,6 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!114 &7051577575795973785
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1993817296112196447}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 014b293f9e278964998a0fe0c1d1590a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Health: 100
-  MaxHealth: 100
-  aimRig: {fileID: 671542651712374034}
-  aimVirtualCamera: {fileID: 0}
-  Crosshair: {fileID: 0}
-  normalSensitivity: 1
-  aimSensitivity: 0.5
-  aimColliderLayerMask:
-    serializedVersion: 2
-    m_Bits: 1
-  debugTransform: {fileID: 0}
 --- !u!114 &6705748369188527839
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1719,22 +1696,32 @@ MonoBehaviour:
   BottomClamp: -30
   CameraAngleOverride: 0
   LockCameraPosition: 0
+  _cinemachineTargetYaw: 0
+  _cinemachineTargetPitch: 0
   _applyspeed: 0
-  _speed: 0
-  _movespeedRatio: 0.25
-  _animationBlend: 0
-  _targetRotation: 0
-  _rotationVelocity: 0
-  _verticalVelocity: 0
-  _animIDSpeed: 0
-  _animIDGrounded: 0
-  _animIDMotionSpeed: 0
-  _animator: {fileID: 0}
-  _controller: {fileID: 0}
-  _input: {fileID: 0}
-  _mainCamera: {fileID: 0}
-  _rotateOnMove: 1
-  _hasAnimator: 0
+  test1: 0
+--- !u!114 &-842399801404949529
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1993817296112196447}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 19e59398ca08ebe439a76beb7505f715, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Health: 100
+  MaxHealth: 100
+  aimRig: {fileID: 671542651712374034}
+  aimVirtualCamera: {fileID: 0}
+  Crosshair: {fileID: 0}
+  normalSensitivity: 1
+  aimSensitivity: 0.5
+  aimColliderLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
 --- !u!1 &2076194114580897639
 GameObject:
   m_ObjectHideFlags: 0
@@ -6751,7 +6738,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48a3419327d9fc545b1dac79926db0b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tpsController: {fileID: 7051577575795973785}
+  tpsController: {fileID: 0}
   vfxHitRed: {fileID: 2193681264387844498, guid: 309ed1e646babcd41a52035fbc937efb, type: 3}
   vfxHitYellow: {fileID: 2193681264387844498, guid: 7dddaff1db85ff649818440f4ebb1cd4, type: 3}
   muzzleLight: {fileID: 3556165203291194431}
@@ -6874,7 +6861,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48a3419327d9fc545b1dac79926db0b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tpsController: {fileID: 7051577575795973785}
+  tpsController: {fileID: 0}
   vfxHitRed: {fileID: 2193681264387844498, guid: 309ed1e646babcd41a52035fbc937efb, type: 3}
   vfxHitYellow: {fileID: 2193681264387844498, guid: 7dddaff1db85ff649818440f4ebb1cd4, type: 3}
   muzzleLight: {fileID: 4483865031893497097}
@@ -6992,7 +6979,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 48a3419327d9fc545b1dac79926db0b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tpsController: {fileID: 7051577575795973785}
+  tpsController: {fileID: 0}
   vfxHitRed: {fileID: 2193681264387844498, guid: 309ed1e646babcd41a52035fbc937efb, type: 3}
   vfxHitYellow: {fileID: 2193681264387844498, guid: 7dddaff1db85ff649818440f4ebb1cd4, type: 3}
   muzzleLight: {fileID: 596692998615461691}

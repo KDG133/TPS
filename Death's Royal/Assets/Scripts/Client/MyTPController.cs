@@ -1,3 +1,4 @@
+using Google.Protobuf.Protocol;
 using StarterAssets;
 using System.Collections;
 using System.Collections.Generic;
@@ -10,11 +11,8 @@ public class MyTPController : ThirdPersonController
 {
     private void Awake()
     {
-        // get a reference to our main camera
         if (_mainCamera == null)
-        {
             _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
-        }
     }
 
     // Start is called before the first frame update
@@ -114,9 +112,20 @@ public class MyTPController : ThirdPersonController
 
         Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
 
+        Vector3 prevPos = transform.position;
+
         // move the player
         _controller.Move(targetDirection.normalized * (_speed * Time.deltaTime) +
                          new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
+
+        if(transform.position != prevPos)
+        {
+            C_Move movePacket = new C_Move();
+            movePacket.PosInfo.Pos.X = transform.position.x;
+            movePacket.PosInfo.Pos.Y = transform.position.y;
+            movePacket.PosInfo.Pos.Z = transform.position.z;
+            Managers.Network.Send(movePacket);
+        }
 
         // update animator if using character
         if (_hasAnimator)

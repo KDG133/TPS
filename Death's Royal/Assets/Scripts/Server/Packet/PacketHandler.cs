@@ -49,9 +49,18 @@ class PacketHandler
 
     public static void S_MoveHandler(PacketSession session, IMessage packet)
     {
-        S_Move enterGamePacket = packet as S_Move;
+        S_Move movePacket = packet as S_Move;
         ServerSession serverSession = session as ServerSession;
 
-        Debug.Log("S_MoveHandler");
+        GameObject go = Managers.Object.FindById(movePacket.PlayerID);
+        if (go == null)
+            return;
+
+        MyTPController tpc = go.GetComponent<MyTPController>();
+        if (tpc == null)
+            return;
+
+        tpc.transform.position = new Vector3(movePacket.PosInfo.Pos.X,
+            movePacket.PosInfo.Pos.Y, movePacket.PosInfo.Pos.Z);
     }
 }

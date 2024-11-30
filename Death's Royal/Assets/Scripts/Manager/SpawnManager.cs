@@ -25,7 +25,7 @@ public class SpawnManager
             insertQueue(zombie);
         }
 
-        CoroutineHelper.StartCoroutine(MonsterSpawn());
+        //CoroutineHelper.StartCoroutine(MonsterSpawn());
     }
 
     public void insertQueue(GameObject p_object)

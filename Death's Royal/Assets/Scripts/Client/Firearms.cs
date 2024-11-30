@@ -6,7 +6,7 @@ using UnityEngine;
 public class Firearms : MonoBehaviour
 {
     public enum gunType { AR, SMG, SG, END }
-    [SerializeField] private ThirdPersonShooterController tpsController;
+    [SerializeField] private MyTPSController tpsController;
     [SerializeField] private Transform vfxHitRed;
     [SerializeField] private Transform vfxHitYellow;
     [SerializeField] private GameObject muzzleLight;
@@ -56,6 +56,7 @@ public class Firearms : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        FindTPSController();
         applyMaxAmmo = (int)(maxAmmo * (1.0f + (Managers.Upgrade.magazinePoint * AmmoRatio)));
         applyFirerate = Firerate * (1.0f + (Managers.Upgrade.fireRatePoint * firerateRatio));
         hitTransform = tpsController.playerHitTransform;
@@ -111,6 +112,14 @@ public class Firearms : MonoBehaviour
         reloading = false;
         canReload = true;
         remainingAmmo = applyMaxAmmo;
+    }
+
+    void FindTPSController()
+    {
+        while (tpsController == null)
+        {
+            tpsController = GameObject.Find("MyPlayer").GetComponent<MyTPSController>();
+        }
     }
 
     IEnumerator Fire(Transform hitTransform, Vector3 mouseWorldPoint)

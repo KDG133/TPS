@@ -82,8 +82,8 @@ namespace StarterAssets
         static public bool _isPause = false;
 
         // cinemachine
-        protected float _cinemachineTargetYaw;
-        protected float _cinemachineTargetPitch;
+        [SerializeField] protected float _cinemachineTargetYaw;
+        [SerializeField] protected float _cinemachineTargetPitch;
 
         // player
         static public int _movespeedPoint;
@@ -134,43 +134,39 @@ namespace StarterAssets
 
         private void Awake()
         {
-            //// get a reference to our main camera
-            //if (_mainCamera == null)
-            //{
-            //    _mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
-            //}
+
         }
 
         private void Start()
         {
-            _cinemachineTargetYaw = CinemachineCameraTarget.transform.rotation.eulerAngles.y;
+//            _cinemachineTargetYaw = CinemachineCameraTarget.transform.rotation.eulerAngles.y;
             
-            _hasAnimator = TryGetComponent(out _animator);
-            _controller = GetComponent<CharacterController>();
-            _input = GetComponent<StarterAssetsInputs>();
-#if ENABLE_INPUT_SYSTEM
-            _playerInput = GetComponent<PlayerInput>();
-#else
-			Debug.LogError( "Starter Assets package is missing dependencies. Please use Tools/Starter Assets/Reinstall Dependencies to fix it");
-#endif
+//            _hasAnimator = TryGetComponent(out _animator);
+//            _controller = GetComponent<CharacterController>();
+//            _input = GetComponent<StarterAssetsInputs>();
+//#if ENABLE_INPUT_SYSTEM
+//            _playerInput = GetComponent<PlayerInput>();
+//#else
+//			Debug.LogError( "Starter Assets package is missing dependencies. Please use Tools/Starter Assets/Reinstall Dependencies to fix it");
+//#endif
 
-            AssignAnimationIDs();
+//            AssignAnimationIDs();
 
-            // reset our timeouts on start
-            _jumpTimeoutDelta = JumpTimeout;
-            _fallTimeoutDelta = FallTimeout;
+//            // reset our timeouts on start
+//            _jumpTimeoutDelta = JumpTimeout;
+//            _fallTimeoutDelta = FallTimeout;
         }
 
         private void Update()
         {
-            _hasAnimator = TryGetComponent(out _animator);          
+            //_hasAnimator = TryGetComponent(out _animator);          
 
-            if(!_isPause)
-            {
-                //JumpAndGravity();
-                GroundedCheck();
-                //Move();
-            }           
+            //if(!_isPause)
+            //{
+            //    JumpAndGravity();
+            //    GroundedCheck();
+            //    Move();
+            //}           
         }
 
         private void LateUpdate()

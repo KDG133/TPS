@@ -21,9 +21,11 @@ public class ObjectManager
 			_objects.Add(info.PlayerID, go);
 
 			MyPlayer = go.GetComponent<MyTPController>();
+			go.GetComponent<MyTPSController>().enabled = true;
 			MyPlayer.Id = info.PlayerID;
-			MyPlayer.transform.position = new Vector3(info.PosX, info.PoxY, info.PoxZ);
-		}
+			MyPlayer.transform.position = new Vector3
+				(info.PosInfo.Pos.X, info.PosInfo.Pos.Y, info.PosInfo.Pos.Z);
+        }
 		else
 		{
             GameObject go = Managers.Resource.Instantiate("Player");
@@ -33,7 +35,10 @@ public class ObjectManager
             ThirdPersonController pc = go.GetComponent<ThirdPersonController>();
             pc.Id = info.PlayerID;
 			Vector2 randomVec = new Vector2(Random.Range(-4.0f, 4.0f), Random.Range(-4.0f, 4.0f));
-            pc.transform.position = new Vector3(info.PosX + randomVec.x, info.PoxY + randomVec.y, info.PoxZ);
+            pc.transform.position = new Vector3
+				(info.PosInfo.Pos.X + randomVec.x,
+                info.PosInfo.Pos.Y + randomVec.y,
+                info.PosInfo.Pos.Z);
         }
 	}
 
@@ -54,6 +59,13 @@ public class ObjectManager
 
 		Remove(MyPlayer.Id);
 		MyPlayer = null;
+	}
+
+	public GameObject FindById(int id)
+	{
+		GameObject go = null;
+		_objects.TryGetValue(id, out go);
+		return go;
 	}
 
 	public GameObject Find(Vector3Int cellPos)

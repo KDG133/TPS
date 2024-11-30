@@ -5,27 +5,25 @@ using UnityEngine;
 
 public class FindMyPlayer : MonoBehaviour
 {
-    MyTPController _myPlayer;
+    [SerializeField] MyTPController _myPlayer;
     CinemachineVirtualCamera _followCam;
     // Start is called before the first frame update
     void Start()
     {
-        StartCoroutine("FindmyPlayer");
         _followCam = GetComponent<CinemachineVirtualCamera>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        FindmyPlayer();
         _followCam.Follow = _myPlayer.transform.GetChild(0).transform;
     }
 
-    IEnumerator FindmyPlayer()
+    void FindmyPlayer()
     {
-        while (true)
+        while (_myPlayer == null)
         {
-            yield return new WaitForSeconds(0.05f);
-
             _myPlayer = GameObject.Find("MyPlayer").GetComponent<MyTPController>();
         }
     }
