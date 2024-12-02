@@ -33,10 +33,13 @@ namespace Server
 			MyPlayer = PlayerManager.Instance.Add();
 			{
 				MyPlayer.Info.Name = $"Player_{MyPlayer.Info.PlayerID}";
-				MyPlayer.Info.PosInfo.Pos.X = -41.0f;
+                MyPlayer.Info.PosInfo.Pos.X = -41.0f;
                 MyPlayer.Info.PosInfo.Pos.Y = 0.0f;
                 MyPlayer.Info.PosInfo.Pos.Z = 28.0f;
-				MyPlayer.Session = this;
+				MyPlayer.Info.PosInfo.MoveDir = -90.0f;
+                Console.WriteLine($"PlayerID : {MyPlayer.Info.PlayerID}");
+
+                MyPlayer.Session = this;
             }
 
 			RoomManager.Instance.Find(1).EnterGame(MyPlayer);

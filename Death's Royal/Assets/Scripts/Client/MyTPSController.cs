@@ -1,4 +1,5 @@
 using Cinemachine;
+using Google.Protobuf.Protocol;
 using StarterAssets;
 using System.Collections;
 using System.Collections.Generic;
@@ -59,7 +60,11 @@ public class MyTPSController : ThirdPersonShooterController
             worldAimTarget.y = transform.position.y;
             Vector3 aimDirection = (worldAimTarget - transform.position).normalized;
 
+            float prevRot = transform.rotation.eulerAngles.y;
+
             transform.forward = Vector3.Lerp(transform.forward, aimDirection, Time.deltaTime * 20f);
+
+            SendMovestate();
         }
         else
         {
@@ -94,4 +99,17 @@ public class MyTPSController : ThirdPersonShooterController
         }
     }
     #endregion
+
+    private void SendMovestate()
+    {
+        C_Move movePacket = new C_Move()
+        {
+            PosInfo = new PositionInfo() { Pos = new PVector3() }
+        };
+        movePacket.PosInfo.Pos.X = transform.position.x;
+        movePacket.PosInfo.Pos.Y = transform.position.y;
+        movePacket.PosInfo.Pos.Z = transform.position.z;
+        movePacket.PosInfo.MoveDir = transform.rotation.eulerAngles.y;
+        Managers.Network.Send(movePacket);
+    }
 }

@@ -9,6 +9,7 @@ using UnityEngine.Windows;
 
 public class MyTPController : ThirdPersonController
 {
+    StarterAssetsInputs _starterAssetsInputs;
     private void Awake()
     {
         if (_mainCamera == null)
@@ -18,6 +19,7 @@ public class MyTPController : ThirdPersonController
     // Start is called before the first frame update
     void Start()
     {
+        _starterAssetsInputs = GetComponent<StarterAssetsInputs>();
         _cinemachineTargetYaw = CinemachineCameraTarget.transform.rotation.eulerAngles.y;
 
         _hasAnimator = TryGetComponent(out _animator);
@@ -102,13 +104,14 @@ public class MyTPController : ThirdPersonController
             float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetRotation, ref _rotationVelocity,
                 RotationSmoothTime);
 
+            //Quaternion prevDir = transform.rotation;
+
             // rotate to face input direction relative to camera position
             if (_rotateOnMove)
             {
                 transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
             }
         }
-
 
         Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
 
@@ -118,13 +121,9 @@ public class MyTPController : ThirdPersonController
         _controller.Move(targetDirection.normalized * (_speed * Time.deltaTime) +
                          new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
 
-        if(transform.position != prevPos)
+        if(transform.position != prevPos && !_starterAssetsInputs.aim)
         {
-            C_Move movePacket = new C_Move();
-            movePacket.PosInfo.Pos.X = transform.position.x;
-            movePacket.PosInfo.Pos.Y = transform.position.y;
-            movePacket.PosInfo.Pos.Z = transform.position.z;
-            Managers.Network.Send(movePacket);
+            SendMovestate();
         }
 
         // update animator if using character
@@ -154,5 +153,18 @@ public class MyTPController : ThirdPersonController
         // Cinemachine will follow this target
         CinemachineCameraTarget.transform.rotation = Quaternion.Euler(_cinemachineTargetPitch + CameraAngleOverride,
             _cinemachineTargetYaw, 0.0f);
+    }
+
+    private void SendMovestate()
+    {
+        C_Move movePacket = new C_Move()
+        {
+            PosInfo = new PositionInfo() { Pos = new PVector3() }
+        };
+        movePacket.PosInfo.Pos.X = transform.position.x;
+        movePacket.PosInfo.Pos.Y = transform.position.y;
+        movePacket.PosInfo.Pos.Z = transform.position.z;
+        movePacket.PosInfo.MoveDir = transform.rotation.eulerAngles.y;
+        Managers.Network.Send(movePacket);
     }
 }

@@ -54,6 +54,13 @@ message PVector3 {
 	float z = 3;
 }
 
+message PVector4 {
+	float x = 1;
+	float y = 2;
+	float z = 3;
+	float w = 4;
+}
+
 message PlayerInfo {
 	int32 playerID = 1;
 	string name = 2;
@@ -61,6 +68,6 @@ message PlayerInfo {
 }
 
 message PositionInfo {
-	PVector3 moveDir = 1;
+	float moveDir = 1;
 	PVector3 pos = 2;
 }

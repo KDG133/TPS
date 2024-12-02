@@ -21,7 +21,7 @@ class PacketHandler
         C_Move movePacket = packet as C_Move;
         ClientSession clientSession = session as ClientSession;
 
-        Console.WriteLine($"C_Move ({movePacket.PosInfo.Pos.X}, {movePacket.PosInfo.Pos.Y}, {movePacket.PosInfo.Pos.Z})");
+        //Console.WriteLine($"C_Move ({movePacket.PosInfo.Pos.X}, {movePacket.PosInfo.Pos.Y}, {movePacket.PosInfo.Pos.Z})");
 
         if (clientSession.MyPlayer == null)
             return;
@@ -38,6 +38,7 @@ class PacketHandler
         S_Move resMovePacket = new S_Move();
         resMovePacket.PlayerID = clientSession.MyPlayer.Info.PlayerID;
         resMovePacket.PosInfo = movePacket.PosInfo;
+        resMovePacket.PosInfo.MoveDir = movePacket.PosInfo.MoveDir;
 
         clientSession.MyPlayer.Room.Broadcast(resMovePacket);
     }

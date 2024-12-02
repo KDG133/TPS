@@ -38,7 +38,7 @@ public class SoundManager
                 AddValue(typeName);
         }
 
-        PlaySound2D("bgm", true, SoundType.BGM);
+        //PlaySound2D("bgm", true, SoundType.BGM);
     }
 
     private void AddQueue(string name)

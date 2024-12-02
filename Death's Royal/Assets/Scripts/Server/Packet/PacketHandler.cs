@@ -1,6 +1,7 @@
 ﻿using Google.Protobuf;
 using Google.Protobuf.Protocol;
 using ServerCore;
+using StarterAssets;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -56,11 +57,12 @@ class PacketHandler
         if (go == null)
             return;
 
-        MyTPController tpc = go.GetComponent<MyTPController>();
+        ThirdPersonController tpc = go.GetComponent<ThirdPersonController>();
         if (tpc == null)
             return;
 
         tpc.transform.position = new Vector3(movePacket.PosInfo.Pos.X,
             movePacket.PosInfo.Pos.Y, movePacket.PosInfo.Pos.Z);
+        tpc.transform.rotation = Quaternion.Euler(new Vector3(0.0f, movePacket.PosInfo.MoveDir, 0.0f));
     }
 }
