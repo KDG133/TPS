@@ -19,7 +19,7 @@ public class ThirdPersonShooterController : MonoBehaviour
     [SerializeField] protected float normalSensitivity;
     [SerializeField] protected float aimSensitivity;
     [SerializeField] protected LayerMask aimColliderLayerMask = new LayerMask();
-    [SerializeField] protected Transform Aimspot;
+    [SerializeField] protected Transform _aimSpot;
 
     protected StarterAssetsInputs starterAssetsInputs;
     protected ThirdPersonController thirdPersonController;
@@ -29,6 +29,18 @@ public class ThirdPersonShooterController : MonoBehaviour
     protected Transform hitTransform = null;
     protected float reloadSpeed = 1.0f;
     protected float reloadPlusRatio = 0.25f;
+    protected bool isAim = false;
+
+    public bool playerAim
+    {
+        get { return isAim; }
+        set { isAim = value; }
+    }
+
+    public Transform aimSpot
+    {
+        get { return _aimSpot; }
+    }
 
     public Vector3 playerMouseWorldPosition
     {
@@ -44,15 +56,13 @@ public class ThirdPersonShooterController : MonoBehaviour
     {
         //starterAssetsInputs = GetComponent<StarterAssetsInputs>();
         //thirdPersonController = GetComponent<ThirdPersonController>();
-        //animator = GetComponent<Animator>();
-        //aimVirtualCamera = GameObject.Find("PlayerAimCamera").GetComponent<CinemachineVirtualCamera>();
-        //Crosshair = GameObject.Find("PlayerCanvas").transform.Find("Crosshair").gameObject;
+        animator = GetComponent<Animator>();
     }
 
     private void Update()
     {
         //Raycast();
-        //Aim();
+        Aim();
         //Shoot();
         //Reload();
     }
@@ -68,36 +78,29 @@ public class ThirdPersonShooterController : MonoBehaviour
     //    }
     //}
 
-    //private void Aim()
-    //{
-    //    if (starterAssetsInputs.aim)
-    //    {
-    //        WeaponManager.Instance.isAiming = true;
-    //        Crosshair.SetActive(true);
-    //        aimRigWeight = 1f;
-    //        aimVirtualCamera.gameObject.SetActive(true);
-    //        thirdPersonController.SetSensitivity(aimSensitivity);
-    //        thirdPersonController.SetRotateOnMove(false);
-    //        animator.SetLayerWeight(1, Mathf.Lerp(animator.GetLayerWeight(1), 1f, Time.deltaTime * 10f));
+    private void Aim()
+    {
+        if (isAim)
+        {
+            //WeaponManager.Instance.isAiming = true;
+            aimRigWeight = 1f;
+            //thirdPersonController.SetRotateOnMove(false);
+            animator.SetLayerWeight(1, Mathf.Lerp(animator.GetLayerWeight(1), 1f, Time.deltaTime * 10f));
 
-    //        Vector3 worldAimTarget = mouseWorldPosition;
-    //        worldAimTarget.y = transform.position.y;
-    //        Vector3 aimDirection = (worldAimTarget - transform.position).normalized;
-
-    //        transform.forward = Vector3.Lerp(transform.forward, aimDirection, Time.deltaTime * 20f);
-    //    }
-    //    else
-    //    {
-    //        WeaponManager.Instance.isAiming = false;
-    //        aimRigWeight = 0f;
-    //        Crosshair.SetActive(false);
-    //        aimVirtualCamera.gameObject.SetActive(false);
-    //        thirdPersonController.SetSensitivity(normalSensitivity);
-    //        thirdPersonController.SetRotateOnMove(true);
-    //        animator.SetLayerWeight(1, Mathf.Lerp(animator.GetLayerWeight(1), 0f, Time.deltaTime * 10f));
-    //    }
-    //    aimRig.weight = Mathf.Lerp(aimRig.weight, aimRigWeight, Time.deltaTime * 20f);
-    //}
+            //Vector3 worldAimTarget = mouseWorldPosition;
+            //worldAimTarget.y = transform.position.y;
+            //Vector3 aimDirection = (worldAimTarget - transform.position).normalized;
+            //transform.forward = Vector3.Lerp(transform.forward, aimDirection, Time.deltaTime * 20f);
+        }
+        else
+        {
+            //WeaponManager.Instance.isAiming = false;
+            aimRigWeight = 0f;
+            //thirdPersonController.SetRotateOnMove(true);
+            animator.SetLayerWeight(1, Mathf.Lerp(animator.GetLayerWeight(1), 0f, Time.deltaTime * 10f));
+        }
+        aimRig.weight = Mathf.Lerp(aimRig.weight, aimRigWeight, Time.deltaTime * 20f);
+    }
 
     //private void Shoot()
     //{

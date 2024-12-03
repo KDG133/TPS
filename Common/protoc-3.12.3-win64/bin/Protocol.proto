@@ -11,9 +11,13 @@ enum MsgId {
   S_DESPAWN = 3;
   C_MOVE = 4;
   S_MOVE = 5;
-  C_CHAT = 6;
-  S_CHAT = 7;
+  C_AIM = 6;
+  S_AIM = 7;
+  C_CHAT = 8;
+  S_CHAT = 9;
 }
+
+enum GunType { AR = 0; SG = 1; SMG = 2; END = 3; }
 
 message S_EnterGame {
   PlayerInfo player = 1;
@@ -38,6 +42,17 @@ message C_Move{
 message S_Move{
 	int32 playerID = 1;
 	PositionInfo posInfo = 2;
+}
+
+message C_Aim{
+	bool isAim = 1;
+	PVector3 pos = 2;
+}
+
+message S_Aim{
+	int32 playerID = 1;
+	bool isAim = 2;
+	PVector3 pos = 3;
 }
 
 message C_Chat {

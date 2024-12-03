@@ -40,7 +40,7 @@ public class MyTPSController : ThirdPersonShooterController
         if (Physics.Raycast(ray, out RaycastHit raycastHit, 999.0f, aimColliderLayerMask))
         {
             mouseWorldPosition = raycastHit.point;
-            Aimspot.position = raycastHit.point;
+            _aimSpot.position = raycastHit.point;
             hitTransform = raycastHit.transform;
         }
     }
@@ -77,6 +77,7 @@ public class MyTPSController : ThirdPersonShooterController
             thirdPersonController.SetRotateOnMove(true);
             animator.SetLayerWeight(1, Mathf.Lerp(animator.GetLayerWeight(1), 0f, Time.deltaTime * 10f));
         }
+        SendAimstate();
         aimRig.weight = Mathf.Lerp(aimRig.weight, aimRigWeight, Time.deltaTime * 20f);
     }
 
@@ -112,5 +113,15 @@ public class MyTPSController : ThirdPersonShooterController
         movePacket.PosInfo.Pos.Z = transform.position.z;
         movePacket.PosInfo.MoveDir = transform.rotation.eulerAngles.y;
         Managers.Network.Send(movePacket);
+    }
+
+    private void SendAimstate()
+    {
+        C_Aim aimPacket = new C_Aim() { Pos = new PVector3() };
+        aimPacket.IsAim = starterAssetsInputs.aim;
+        aimPacket.Pos.X = _aimSpot.position.x;
+        aimPacket.Pos.Y = _aimSpot.position.y;
+        aimPacket.Pos.Z = _aimSpot.position.z;
+        Managers.Network.Send(aimPacket);
     }
 }

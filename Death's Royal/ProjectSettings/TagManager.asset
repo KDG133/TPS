@@ -6,6 +6,9 @@ TagManager:
   tags:
   - CinemachineTarget
   - Monster
+  - AR
+  - SG
+  - SMG
   - Firearms
   layers:
   - Default

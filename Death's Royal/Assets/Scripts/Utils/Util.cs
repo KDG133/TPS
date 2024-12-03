@@ -51,5 +51,33 @@ public class Util
         return null;
     }
 
+    public static GameObject FindChildWithTag(Transform parent, string tag)
+    {
+        foreach (Transform child in parent)
+        {
+            if (child.CompareTag(tag))
+            {
+                return child.gameObject;
+            }
 
+            GameObject found = FindChildWithTag(child, tag);
+            if (found != null)
+            {
+                return found;
+            }
+        }
+        return null;
+    }
+
+    public static void ChangeAllChildrenNames(Transform parent, string newName)
+    {
+        int index = 0;
+        foreach (Transform child in parent)
+        {
+            child.name = $"{newName}_{index}";
+            index++;
+
+            ChangeAllChildrenNames(child, newName);
+        }
+    }
 }

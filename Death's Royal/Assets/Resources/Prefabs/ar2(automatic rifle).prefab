@@ -162,7 +162,7 @@ GameObject:
   - component: {fileID: 4343833751695024332}
   m_Layer: 0
   m_Name: ar2(automatic rifle)
-  m_TagString: Untagged
+  m_TagString: AR
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

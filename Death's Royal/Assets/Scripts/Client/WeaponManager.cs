@@ -5,10 +5,10 @@ using UnityEngine;
 public class WeaponManager : MonoBehaviour
 {
     public static WeaponManager Instance { get; private set; }
-    [SerializeField] private Firearms[] firearms;
-    [SerializeField] private Firearms currentFirearm = null;
+    [SerializeField] private MyFirearms[] firearms;
+    [SerializeField] private MyFirearms currentFirearm = null;
     public bool isAiming {  get; set; }
-    public Firearms CurrentFirearm
+    public MyFirearms CurrentFirearm
     {
         get { return currentFirearm; }
     }

@@ -66,4 +66,21 @@ class PacketHandler
             movePacket.PosInfo.Pos.Y, movePacket.PosInfo.Pos.Z);
         tpc.transform.rotation = Quaternion.Euler(new Vector3(0f, movePacket.PosInfo.MoveDir, 0f));
     }
+
+    public static void S_AimHandler(PacketSession session, IMessage packet)
+    {
+        S_Aim aimPacket = packet as S_Aim;
+        ServerSession serverSession = session as ServerSession;
+
+        GameObject go = Managers.Object.FindById(aimPacket.PlayerID);
+        if (go == null)
+            return;
+
+        ThirdPersonShooterController tpsc = go.GetComponent<ThirdPersonShooterController>();
+        if (tpsc == null)
+            return;
+
+        tpsc.playerAim = aimPacket.IsAim;
+        tpsc.aimSpot.position = new Vector3(aimPacket.Pos.X, aimPacket.Pos.Y, aimPacket.Pos.Z);
+    }
 }

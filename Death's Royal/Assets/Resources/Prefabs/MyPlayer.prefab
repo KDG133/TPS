@@ -1658,9 +1658,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   firearms:
-  - {fileID: 1578813328078626834}
-  - {fileID: 6479759354214167337}
-  - {fileID: 6631987638497141738}
+  - {fileID: 6088114739585837114}
+  - {fileID: 4116348134751798813}
+  - {fileID: 1003550739999297052}
   currentFirearm: {fileID: 0}
 --- !u!114 &-5261286319425284250
 MonoBehaviour:
@@ -1723,7 +1723,7 @@ MonoBehaviour:
   aimColliderLayerMask:
     serializedVersion: 2
     m_Bits: 1
-  Aimspot: {fileID: 4910335808086426477}
+  _aimSpot: {fileID: 4910335808086426477}
 --- !u!1 &2076194114580897639
 GameObject:
   m_ObjectHideFlags: 0
@@ -6733,7 +6733,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 1d6c4e21c412bb848b0f11239fe7fb2e, type: 3}
       propertyPath: m_TagString
-      value: Firearms
+      value: SG
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6747,7 +6747,7 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 1d6c4e21c412bb848b0f11239fe7fb2e, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 6479759354214167337}
+      addedObject: {fileID: 4116348134751798813}
   m_SourcePrefab: {fileID: 100100000, guid: 1d6c4e21c412bb848b0f11239fe7fb2e, type: 3}
 --- !u!4 &2477230756593232257 stripped
 Transform:
@@ -6759,7 +6759,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 1d6c4e21c412bb848b0f11239fe7fb2e, type: 3}
   m_PrefabInstance: {fileID: 2732098666160721514}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &6479759354214167337
+--- !u!114 &4116348134751798813
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -6768,16 +6768,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 2966522585851441979}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 48a3419327d9fc545b1dac79926db0b7, type: 3}
+  m_Script: {fileID: 11500000, guid: 620f0db04c624c5488120607d210a705, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   tpsController: {fileID: 0}
   vfxHitRed: {fileID: 2193681264387844498, guid: 309ed1e646babcd41a52035fbc937efb, type: 3}
   vfxHitYellow: {fileID: 2193681264387844498, guid: 7dddaff1db85ff649818440f4ebb1cd4, type: 3}
-  muzzleLight: {fileID: 3556165203291194431}
-  spawnBulletPosition: {fileID: 1703111937635170542}
+  muzzleLight: {fileID: 0}
+  spawnBulletPosition: {fileID: 0}
   BulletTrail: {fileID: 136368701168757668, guid: 63fc6df607fed324896625f0557289b4, type: 3}
-  GunType: 2
+  gunType: 1
   Firerate: 350
   applyFirerate: 0
   maxAmmo: 5
@@ -6798,9 +6798,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: AR_Fire Light
       objectReference: {fileID: 0}
+    - target: {fileID: 83868738447438001, guid: 238e51aac481d5143b7a55bddca1eea1, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
+      objectReference: {fileID: 0}
     - target: {fileID: 2601265517928920887, guid: 238e51aac481d5143b7a55bddca1eea1, type: 3}
       propertyPath: m_Name
       value: AR_Bullet_Spawn
+      objectReference: {fileID: 0}
+    - target: {fileID: 2601265517928920887, guid: 238e51aac481d5143b7a55bddca1eea1, type: 3}
+      propertyPath: m_TagString
+      value: Untagged
       objectReference: {fileID: 0}
     - target: {fileID: 7696719960760926367, guid: 238e51aac481d5143b7a55bddca1eea1, type: 3}
       propertyPath: m_Name
@@ -6812,7 +6820,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7696719960760926367, guid: 238e51aac481d5143b7a55bddca1eea1, type: 3}
       propertyPath: m_TagString
-      value: Firearms
+      value: AR
       objectReference: {fileID: 0}
     - target: {fileID: 8272319328201437468, guid: 238e51aac481d5143b7a55bddca1eea1, type: 3}
       propertyPath: m_LocalPosition.x
@@ -6860,18 +6868,8 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 7696719960760926367, guid: 238e51aac481d5143b7a55bddca1eea1, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1578813328078626834}
+      addedObject: {fileID: 6088114739585837114}
   m_SourcePrefab: {fileID: 100100000, guid: 238e51aac481d5143b7a55bddca1eea1, type: 3}
---- !u!4 &2287821160505959355 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2355361063332062723, guid: 238e51aac481d5143b7a55bddca1eea1, type: 3}
-  m_PrefabInstance: {fileID: 4544155462528255416}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &4483865031893497097 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 83868738447438001, guid: 238e51aac481d5143b7a55bddca1eea1, type: 3}
-  m_PrefabInstance: {fileID: 4544155462528255416}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5610706443204211876 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8272319328201437468, guid: 238e51aac481d5143b7a55bddca1eea1, type: 3}
@@ -6882,7 +6880,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 7696719960760926367, guid: 238e51aac481d5143b7a55bddca1eea1, type: 3}
   m_PrefabInstance: {fileID: 4544155462528255416}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1578813328078626834
+--- !u!114 &6088114739585837114
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -6891,16 +6889,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 6178986342638519591}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 48a3419327d9fc545b1dac79926db0b7, type: 3}
+  m_Script: {fileID: 11500000, guid: 620f0db04c624c5488120607d210a705, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   tpsController: {fileID: 0}
   vfxHitRed: {fileID: 2193681264387844498, guid: 309ed1e646babcd41a52035fbc937efb, type: 3}
   vfxHitYellow: {fileID: 2193681264387844498, guid: 7dddaff1db85ff649818440f4ebb1cd4, type: 3}
-  muzzleLight: {fileID: 4483865031893497097}
-  spawnBulletPosition: {fileID: 2287821160505959355}
+  muzzleLight: {fileID: 0}
+  spawnBulletPosition: {fileID: 0}
   BulletTrail: {fileID: 136368701168757668, guid: 63fc6df607fed324896625f0557289b4, type: 3}
-  GunType: 0
+  gunType: 0
   Firerate: 700
   applyFirerate: 0
   maxAmmo: 30
@@ -6979,7 +6977,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9394818074ca39f489272e83e484bdf5, type: 3}
       propertyPath: m_TagString
-      value: Firearms
+      value: SMG
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6993,14 +6991,14 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 9394818074ca39f489272e83e484bdf5, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 6631987638497141738}
+      addedObject: {fileID: 1003550739999297052}
   m_SourcePrefab: {fileID: 100100000, guid: 9394818074ca39f489272e83e484bdf5, type: 3}
 --- !u!1 &4904523956956827306 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 9394818074ca39f489272e83e484bdf5, type: 3}
   m_PrefabInstance: {fileID: 5247035910528381947}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &6631987638497141738
+--- !u!114 &1003550739999297052
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -7009,19 +7007,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 4904523956956827306}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 48a3419327d9fc545b1dac79926db0b7, type: 3}
+  m_Script: {fileID: 11500000, guid: 620f0db04c624c5488120607d210a705, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   tpsController: {fileID: 0}
   vfxHitRed: {fileID: 2193681264387844498, guid: 309ed1e646babcd41a52035fbc937efb, type: 3}
   vfxHitYellow: {fileID: 2193681264387844498, guid: 7dddaff1db85ff649818440f4ebb1cd4, type: 3}
-  muzzleLight: {fileID: 596692998615461691}
-  spawnBulletPosition: {fileID: 6570928772275564632}
+  muzzleLight: {fileID: 0}
+  spawnBulletPosition: {fileID: 0}
   BulletTrail: {fileID: 136368701168757668, guid: 63fc6df607fed324896625f0557289b4, type: 3}
-  GunType: 1
+  gunType: 2
   Firerate: 800
   applyFirerate: 0
-  maxAmmo: 30
+  maxAmmo: 25
   remainingAmmo: 0
   shotgunPellets: 0
   spreadAngle: 0

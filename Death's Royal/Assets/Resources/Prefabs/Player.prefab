@@ -1731,6 +1731,7 @@ MonoBehaviour:
   aimColliderLayerMask:
     serializedVersion: 2
     m_Bits: 1
+  _aimSpot: {fileID: 6297178052044802647}
 --- !u!114 &6705748369188527839
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5164,7 +5165,7 @@ MonoBehaviour:
     m_SourceObjects:
       m_Length: 1
       m_Item0:
-        transform: {fileID: 0}
+        transform: {fileID: 6297178052044802647}
         weight: 1
       m_Item1:
         transform: {fileID: 0}
@@ -6742,7 +6743,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 1d6c4e21c412bb848b0f11239fe7fb2e, type: 3}
       propertyPath: m_TagString
-      value: Firearms
+      value: SG
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6821,7 +6822,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7696719960760926367, guid: 238e51aac481d5143b7a55bddca1eea1, type: 3}
       propertyPath: m_TagString
-      value: Firearms
+      value: AR
       objectReference: {fileID: 0}
     - target: {fileID: 8272319328201437468, guid: 238e51aac481d5143b7a55bddca1eea1, type: 3}
       propertyPath: m_LocalPosition.x
@@ -6988,7 +6989,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 9394818074ca39f489272e83e484bdf5, type: 3}
       propertyPath: m_TagString
-      value: Firearms
+      value: SMG
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

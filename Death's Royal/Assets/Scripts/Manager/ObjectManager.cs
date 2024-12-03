@@ -18,7 +18,8 @@ public class ObjectManager
 		{
 			GameObject go = Managers.Resource.Instantiate("MyPlayer");
 			go.name = "MyPlayer";
-			_objects.Add(info.PlayerID, go);
+			ChangeGunName(go.transform, go.name);
+            _objects.Add(info.PlayerID, go);
 
 			MyPlayer = go.GetComponent<MyTPController>();
 			go.GetComponent<MyTPSController>().enabled = true;
@@ -30,6 +31,7 @@ public class ObjectManager
 		{
             GameObject go = Managers.Resource.Instantiate("Player");
             go.name = info.Name;
+            ChangeGunName(go.transform, go.name);
             _objects.Add(info.PlayerID, go);
 
             ThirdPersonController pc = go.GetComponent<ThirdPersonController>();
@@ -72,18 +74,6 @@ public class ObjectManager
 		return go;
 	}
 
-	public GameObject Find(Vector3Int cellPos)
-	{
-		foreach (GameObject obj in _objects.Values)
-		{
-			//CreatureController cc = obj.GetComponent<CreatureController>();
-			//if (cc == null)
-			//	continue;
-		}
-
-		return null;
-	}
-
 	public GameObject Find(Func<GameObject, bool> condition)
 	{
 		foreach (GameObject obj in _objects.Values)
@@ -94,6 +84,15 @@ public class ObjectManager
 
 		return null;
 	}
+
+	public void ChangeGunName(Transform parent, string addName)
+	{
+        for (int i = 0; i < (int)GunType.End; ++i)
+        {
+            foreach (Transform child in Util.FindChildWithTag(parent, Enum.GetName(typeof(GunType), i).ToUpper()).transform)
+                child.name = addName + "_" + child.name;
+        }
+    }
 
 	public void Clear()
 	{

@@ -21,8 +21,6 @@ class PacketHandler
         C_Move movePacket = packet as C_Move;
         ClientSession clientSession = session as ClientSession;
 
-        //Console.WriteLine($"C_Move ({movePacket.PosInfo.Pos.X}, {movePacket.PosInfo.Pos.Y}, {movePacket.PosInfo.Pos.Z})");
-
         if (clientSession.MyPlayer == null)
             return;
         if(clientSession.MyPlayer.Room == null) 
@@ -31,14 +29,29 @@ class PacketHandler
         //TODO : 검증
 
         //서버에서 좌표 이동
-        PlayerInfo info = clientSession.MyPlayer.Info;
-        info.PosInfo = movePacket.PosInfo;
-
         //다른 플레이어한테 알려준다
         S_Move resMovePacket = new S_Move();
         resMovePacket.PlayerID = clientSession.MyPlayer.Info.PlayerID;
         resMovePacket.PosInfo = movePacket.PosInfo;
 
         clientSession.MyPlayer.Room.Broadcast(resMovePacket);
+    }
+
+    public static void C_AimHandler(PacketSession session, IMessage packet)
+    {
+        C_Aim AimPacket = packet as C_Aim;
+        ClientSession clientSession = session as ClientSession;
+
+        if (clientSession.MyPlayer == null)
+            return;
+        if (clientSession.MyPlayer.Room == null)
+            return;
+
+        S_Aim resAimPacket = new S_Aim();
+        resAimPacket.PlayerID = clientSession.MyPlayer.Info.PlayerID;
+        resAimPacket.IsAim = AimPacket.IsAim;
+        resAimPacket.Pos = AimPacket.Pos;
+
+        clientSession.MyPlayer.Room.Broadcast(resAimPacket);
     }
 }
