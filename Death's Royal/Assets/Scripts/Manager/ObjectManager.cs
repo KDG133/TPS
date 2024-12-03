@@ -34,22 +34,26 @@ public class ObjectManager
 
             ThirdPersonController pc = go.GetComponent<ThirdPersonController>();
             pc.Id = info.PlayerID;
-			Vector2 randomVec = new Vector2(Random.Range(-4.0f, 4.0f), Random.Range(-4.0f, 4.0f));
+			Vector2 randomVec = new Vector2(Random.Range(-3f, 3f), Random.Range(-3f, 3f));
             pc.transform.position = new Vector3
 				(info.PosInfo.Pos.X + randomVec.x,
-                info.PosInfo.Pos.Y + randomVec.y,
-                info.PosInfo.Pos.Z);
+                info.PosInfo.Pos.Y,
+                info.PosInfo.Pos.Z + randomVec.y);
         }
 	}
 
-	public void Add(int id,GameObject go)
-	{
-		_objects.Add(id, go);
-	}
+	//public void Add(int id,GameObject go)
+	//{
+	//	_objects.Add(id, go);
+	//}
 
 	public void Remove(int id)
 	{
+		GameObject go = FindById(id);
+		if(go == null) return;
+
 		_objects.Remove(id);
+		Managers.Resource.Destroy(go);
 	}
 
 	public void RemoveMyPlayer()
@@ -93,6 +97,8 @@ public class ObjectManager
 
 	public void Clear()
 	{
-		_objects.Clear();
+		foreach (GameObject obj in _objects.Values)
+			Managers.Resource.Destroy(obj);
+        _objects.Clear();
 	}
 }

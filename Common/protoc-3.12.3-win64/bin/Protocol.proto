@@ -64,10 +64,12 @@ message PVector4 {
 message PlayerInfo {
 	int32 playerID = 1;
 	string name = 2;
-	PositionInfo posInfo = 3;
+	bool isAim = 3;
+	PositionInfo posInfo = 4;
 }
 
 message PositionInfo {
 	float moveDir = 1;
-	PVector3 pos = 2;
+	float moveSpeed = 2;
+	PVector3 pos = 3;
 }

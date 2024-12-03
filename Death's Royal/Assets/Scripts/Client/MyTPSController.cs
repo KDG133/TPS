@@ -40,6 +40,7 @@ public class MyTPSController : ThirdPersonShooterController
         if (Physics.Raycast(ray, out RaycastHit raycastHit, 999.0f, aimColliderLayerMask))
         {
             mouseWorldPosition = raycastHit.point;
+            Aimspot.position = raycastHit.point;
             hitTransform = raycastHit.transform;
         }
     }

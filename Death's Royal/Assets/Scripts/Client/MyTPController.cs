@@ -104,8 +104,6 @@ public class MyTPController : ThirdPersonController
             float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetRotation, ref _rotationVelocity,
                 RotationSmoothTime);
 
-            //Quaternion prevDir = transform.rotation;
-
             // rotate to face input direction relative to camera position
             if (_rotateOnMove)
             {
@@ -165,6 +163,7 @@ public class MyTPController : ThirdPersonController
         movePacket.PosInfo.Pos.Y = transform.position.y;
         movePacket.PosInfo.Pos.Z = transform.position.z;
         movePacket.PosInfo.MoveDir = transform.rotation.eulerAngles.y;
+        movePacket.PosInfo.MoveSpeed = _speed;
         Managers.Network.Send(movePacket);
     }
 }

@@ -61,8 +61,9 @@ class PacketHandler
         if (tpc == null)
             return;
 
+        tpc.playerSpeed = movePacket.PosInfo.MoveSpeed;
         tpc.transform.position = new Vector3(movePacket.PosInfo.Pos.X,
             movePacket.PosInfo.Pos.Y, movePacket.PosInfo.Pos.Z);
-        tpc.transform.rotation = Quaternion.Euler(new Vector3(0.0f, movePacket.PosInfo.MoveDir, 0.0f));
+        tpc.transform.rotation = Quaternion.Euler(new Vector3(0f, movePacket.PosInfo.MoveDir, 0f));
     }
 }

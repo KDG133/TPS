@@ -19,6 +19,7 @@ public class ThirdPersonShooterController : MonoBehaviour
     [SerializeField] protected float normalSensitivity;
     [SerializeField] protected float aimSensitivity;
     [SerializeField] protected LayerMask aimColliderLayerMask = new LayerMask();
+    [SerializeField] protected Transform Aimspot;
 
     protected StarterAssetsInputs starterAssetsInputs;
     protected ThirdPersonController thirdPersonController;
