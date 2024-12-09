@@ -23,6 +23,7 @@ public class ThirdPersonShooterController : MonoBehaviour
 
     protected StarterAssetsInputs starterAssetsInputs;
     protected ThirdPersonController thirdPersonController;
+    protected WeaponChanger weaponChanger;
     protected Animator animator;
     protected float aimRigWeight;
     protected Vector3 mouseWorldPosition = Vector3.zero;
@@ -30,11 +31,18 @@ public class ThirdPersonShooterController : MonoBehaviour
     protected float reloadSpeed = 1.0f;
     protected float reloadPlusRatio = 0.25f;
     protected bool isAim = false;
+    protected bool isReload = false;
 
     public bool playerAim
     {
         get { return isAim; }
         set { isAim = value; }
+    }
+
+    public bool playerReload
+    {
+        get { return isReload; }
+        set { isReload = value; }
     }
 
     public Transform aimSpot
@@ -56,6 +64,7 @@ public class ThirdPersonShooterController : MonoBehaviour
     {
         //starterAssetsInputs = GetComponent<StarterAssetsInputs>();
         //thirdPersonController = GetComponent<ThirdPersonController>();
+        weaponChanger = GetComponent<WeaponChanger>();
         animator = GetComponent<Animator>();
     }
 
@@ -64,39 +73,19 @@ public class ThirdPersonShooterController : MonoBehaviour
         //Raycast();
         Aim();
         //Shoot();
-        //Reload();
+        Reload();
     }
-
-    //private void Raycast()
-    //{
-    //    Vector2 screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
-    //    Ray ray = Camera.main.ScreenPointToRay(screenCenterPoint);
-    //    if (Physics.Raycast(ray, out RaycastHit raycastHit, 999.0f, aimColliderLayerMask))
-    //    {
-    //        mouseWorldPosition = raycastHit.point;
-    //        hitTransform = raycastHit.transform;
-    //    }
-    //}
 
     private void Aim()
     {
         if (isAim)
         {
-            //WeaponManager.Instance.isAiming = true;
             aimRigWeight = 1f;
-            //thirdPersonController.SetRotateOnMove(false);
             animator.SetLayerWeight(1, Mathf.Lerp(animator.GetLayerWeight(1), 1f, Time.deltaTime * 10f));
-
-            //Vector3 worldAimTarget = mouseWorldPosition;
-            //worldAimTarget.y = transform.position.y;
-            //Vector3 aimDirection = (worldAimTarget - transform.position).normalized;
-            //transform.forward = Vector3.Lerp(transform.forward, aimDirection, Time.deltaTime * 20f);
         }
         else
         {
-            //WeaponManager.Instance.isAiming = false;
             aimRigWeight = 0f;
-            //thirdPersonController.SetRotateOnMove(true);
             animator.SetLayerWeight(1, Mathf.Lerp(animator.GetLayerWeight(1), 0f, Time.deltaTime * 10f));
         }
         aimRig.weight = Mathf.Lerp(aimRig.weight, aimRigWeight, Time.deltaTime * 20f);
@@ -110,21 +99,19 @@ public class ThirdPersonShooterController : MonoBehaviour
     //    }
     //}
 
-    //private void Reload()
-    //{
-    //    bool checkReload = WeaponManager.Instance.CurrentFirearm.MaxAmmo > WeaponManager.Instance.CurrentFirearm.RemainingAmmo;
-
-    //    animator.SetFloat("ReloadSpeed", reloadSpeed + (reloadPlusRatio * Managers.Upgrade.reloadPoint));
-    //    if (starterAssetsInputs.reload && checkReload && !WeaponManager.Instance.CurrentFirearm.Reloading)
-    //    {
-    //        animator.SetTrigger("Reload");
-    //        WeaponManager.Instance.CurrentFirearm.Reload();
-    //    }
-    //}
+    private void Reload()
+    {
+        animator.SetFloat("ReloadSpeed", reloadSpeed /*+ (reloadPlusRatio * Managers.Upgrade.reloadPoint)*/);
+        if (isReload)
+        {
+            isReload = false;
+            animator.SetTrigger("Reload");
+        }
+    }
 
     private void End_Reload()
     {
-        WeaponManager.Instance.CurrentFirearm.EndReload();
+        weaponChanger.CurrentFirearm.EndReload();
     }
 
     private void walkLeft()

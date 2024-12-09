@@ -7,13 +7,14 @@ using UnityEngine.UI;
 
 public class PlayerInfoUI : MonoBehaviour
 {
-    MyTPController _myPlayer;
+    private MyTPController _myPlayer;
+    private MyTPSController tpsController;
+    private MyWeaponChanger myWeaponchanger;
     public Transform uiPos;
     public Transform playerInfo;
     public Image healthBar;
     public TextMeshProUGUI remainAmmotxt;
     public TextMeshProUGUI maxAmmotxt;
-    public MyTPSController tpsController;
 
     public float lerpSpeed;
     // Start is called before the first frame update
@@ -52,8 +53,8 @@ public class PlayerInfoUI : MonoBehaviour
 
     void AmmoInfo()
     {
-        maxAmmotxt.text = WeaponManager.Instance.CurrentFirearm.MaxAmmo.ToString();
-        remainAmmotxt.text = WeaponManager.Instance.CurrentFirearm.RemainingAmmo.ToString();
+        maxAmmotxt.text = myWeaponchanger.CurrentFirearm.MaxAmmo.ToString();
+        remainAmmotxt.text = myWeaponchanger.CurrentFirearm.RemainingAmmo.ToString();
     }
 
     void FollowUI()
@@ -66,6 +67,7 @@ public class PlayerInfoUI : MonoBehaviour
         while (_myPlayer == null || tpsController == null)
         {
             _myPlayer = GameObject.Find("MyPlayer").GetComponent<MyTPController>();
+            myWeaponchanger = GameObject.Find("MyPlayer").GetComponent<MyWeaponChanger>();
             tpsController = _myPlayer.GetComponent<MyTPSController>();
         }
     }

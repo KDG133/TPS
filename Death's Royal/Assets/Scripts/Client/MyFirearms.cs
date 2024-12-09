@@ -23,7 +23,7 @@ public class MyFirearms : Firearms
         mouseWorldPosition = tpsController.playerMouseWorldPosition;
     }
 
-    public void Shoot()
+    public override void Shoot()
     {
         if (canFire && remainingAmmo > 0 && !reloading)
         {
@@ -57,23 +57,23 @@ public class MyFirearms : Firearms
         }
     }
 
-    public void Reload()
-    {
-        reloading = true;
-        if (canReload)
-        {
-            Managers.Sound.PlaySound2D("Reload");
-            canReload = false;
-        }
-    }
+    //public void Reload()
+    //{
+    //    reloading = true;
+    //    if (canReload)
+    //    {
+    //        Managers.Sound.PlaySound2D("Reload");
+    //        canReload = false;
+    //    }
+    //}
 
-    //Animation Event Function
-    public void EndReload()
-    {
-        reloading = false;
-        canReload = true;
-        remainingAmmo = applyMaxAmmo;
-    }
+    ////Animation Event Function
+    //public void EndReload()
+    //{
+    //    reloading = false;
+    //    canReload = true;
+    //    remainingAmmo = applyMaxAmmo;
+    //}
 
     void FindMyPlayer()
     {

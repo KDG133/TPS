@@ -54,4 +54,38 @@ class PacketHandler
 
         clientSession.MyPlayer.Room.Broadcast(resAimPacket);
     }
+
+    public static void C_WeaponchangeHandler(PacketSession session, IMessage packet)
+    {
+        C_Weaponchange WeaponchangePacket = packet as C_Weaponchange;
+        ClientSession clientSession = session as ClientSession;
+
+        if (clientSession.MyPlayer == null)
+            return;
+        if (clientSession.MyPlayer.Room == null)
+            return;
+
+        S_Weaponchange redWeaponchangePacket = new S_Weaponchange();
+        redWeaponchangePacket.PlayerID = clientSession.MyPlayer.Info.PlayerID;
+        redWeaponchangePacket.GunType = WeaponchangePacket.GunType;
+
+        clientSession.MyPlayer.Room.Broadcast(redWeaponchangePacket);
+    }
+
+    public static void C_ReloadHandler(PacketSession session, IMessage packet)
+    {
+        C_Reload reloadPacket = packet as C_Reload;
+        ClientSession clientSession = session as ClientSession;
+
+        if (clientSession.MyPlayer == null)
+            return;
+        if (clientSession.MyPlayer.Room == null)
+            return;
+
+        S_Reload redReloadPacket = new S_Reload();
+        redReloadPacket.PlayerID = clientSession.MyPlayer.Info.PlayerID;
+        redReloadPacket.IsReload = reloadPacket.IsReload;
+
+        clientSession.MyPlayer.Room.Broadcast(redReloadPacket);
+    }
 }

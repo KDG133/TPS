@@ -1399,9 +1399,9 @@ GameObject:
   - component: {fileID: 8119544971815883090}
   - component: {fileID: 3087511371372868710}
   - component: {fileID: 6705748369188527839}
-  - component: {fileID: 8799059842461600386}
   - component: {fileID: -5261286319425284250}
   - component: {fileID: -842399801404949529}
+  - component: {fileID: 8103703401699730703}
   m_Layer: 9
   m_Name: MyPlayer
   m_TagString: Player
@@ -1645,23 +1645,6 @@ MonoBehaviour:
   - m_Rig: {fileID: 671542651712374034}
     m_Active: 1
   m_Effectors: []
---- !u!114 &8799059842461600386
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1993817296112196447}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c40dde3b116e3e644bc69501b9824d57, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  firearms:
-  - {fileID: 6088114739585837114}
-  - {fileID: 4116348134751798813}
-  - {fileID: 1003550739999297052}
-  currentFirearm: {fileID: 0}
 --- !u!114 &-5261286319425284250
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1724,6 +1707,23 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   _aimSpot: {fileID: 4910335808086426477}
+--- !u!114 &8103703401699730703
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1993817296112196447}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d91c79ed0dfe3f646bab09f8d5bbc5cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  firearms:
+  - {fileID: 6088114739585837114}
+  - {fileID: 4116348134751798813}
+  - {fileID: 1003550739999297052}
+  currentFirearm: {fileID: 0}
 --- !u!1 &2076194114580897639
 GameObject:
   m_ObjectHideFlags: 0

@@ -51,7 +51,6 @@ class PacketHandler
     public static void S_MoveHandler(PacketSession session, IMessage packet)
     {
         S_Move movePacket = packet as S_Move;
-        ServerSession serverSession = session as ServerSession;
 
         GameObject go = Managers.Object.FindById(movePacket.PlayerID);
         if (go == null)
@@ -70,7 +69,6 @@ class PacketHandler
     public static void S_AimHandler(PacketSession session, IMessage packet)
     {
         S_Aim aimPacket = packet as S_Aim;
-        ServerSession serverSession = session as ServerSession;
 
         GameObject go = Managers.Object.FindById(aimPacket.PlayerID);
         if (go == null)
@@ -82,5 +80,35 @@ class PacketHandler
 
         tpsc.playerAim = aimPacket.IsAim;
         tpsc.aimSpot.position = new Vector3(aimPacket.Pos.X, aimPacket.Pos.Y, aimPacket.Pos.Z);
+    }
+
+    public static void S_WeaponchangeHandler(PacketSession session, IMessage packet)
+    {
+        S_Weaponchange weaponChangePacket = packet as S_Weaponchange;
+
+        GameObject go = Managers.Object.FindById(weaponChangePacket.PlayerID);
+        if (go == null)
+            return;
+
+        WeaponChanger wpc = go.GetComponent<WeaponChanger>();
+        if (wpc == null)
+            return;
+
+        wpc.CurrentGunType = weaponChangePacket.GunType;
+    }
+
+    public static void S_ReloadHandler(PacketSession session, IMessage packet)
+    {
+        S_Reload reloadPacket = packet as S_Reload;
+
+        GameObject go = Managers.Object.FindById(reloadPacket.PlayerID);
+        if (go == null)
+            return;
+
+        ThirdPersonShooterController tpsc = go.GetComponent<ThirdPersonShooterController>();
+        if (tpsc == null)
+            return;
+
+        tpsc.playerReload = reloadPacket.IsReload;
     }
 }

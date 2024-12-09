@@ -65,65 +65,56 @@ public class Firearms : MonoBehaviour
         //mouseWorldPosition = tpsController.playerMouseWorldPosition;
     }
 
-    //public void Shoot()
-    //{
-    //    if (canFire && remainingAmmo > 0 && !reloading)
-    //    {
-    //        switch (gunType)
-    //        {
-    //            case GunType.Ar:
-    //                Managers.Sound.PlaySound2D("ar");
-    //                //Managers.Sound.PlaySound3D("ar", gameObject.transform);
-    //                break;
-    //            case GunType.Sg:
-    //                Managers.Sound.PlaySound2D("shotgun");
-    //                break;
-    //            case GunType.Smg:
-    //                Managers.Sound.PlaySound2D("mp5");
-    //                break;
-    //        }
-
-    //        if (gunType == GunType.Sg)
-    //        {
-    //            muzzleLight.SetActive(true);
-    //            StartCoroutine(ShotGunFire(mouseWorldPosition));
-    //            CinemachineShake.Instance.ShakeCamera(camIntensity, 60.0f / applyFirerate);
-    //        }
-    //        else
-    //        {
-    //            muzzleLight.SetActive(true);
-    //            StartCoroutine(Fire(hitTransform, mouseWorldPosition));
-    //            StartCoroutine(SpawnTrail(mouseWorldPosition));
-    //            CinemachineShake.Instance.ShakeCamera(camIntensity, 60.0f / applyFirerate);
-    //        }
-    //    }              
-    //}
-
-    //public void Reload()
-    //{
-    //    reloading = true;
-    //    if (canReload)
-    //    {
-    //        Managers.Sound.PlaySound2D("Reload");
-    //        canReload = false;
-    //    }
-    //}
-
-    ////Animation Event Function
-    //public void EndReload()
-    //{
-    //    reloading = false;
-    //    canReload = true;
-    //    remainingAmmo = applyMaxAmmo;
-    //}
-
-    void FindMyPlayer()
+    public virtual void Shoot()
     {
-        while (tpsController == null)
+        //if (canFire && remainingAmmo > 0 && !reloading)
+        //{
+        //    switch (gunType)
+        //    {
+        //        case GunType.Ar:
+        //            Managers.Sound.PlaySound2D("ar");
+        //            Managers.Sound.PlaySound3D("ar", gameObject.transform);
+        //            break;
+        //        case GunType.Sg:
+        //            Managers.Sound.PlaySound2D("shotgun");
+        //            break;
+        //        case GunType.Smg:
+        //            Managers.Sound.PlaySound2D("mp5");
+        //            break;
+        //    }
+
+        //    if (gunType == GunType.Sg)
+        //    {
+        //        muzzleLight.SetActive(true);
+        //        StartCoroutine(ShotGunFire(mouseWorldPosition));
+        //        CinemachineShake.Instance.ShakeCamera(camIntensity, 60.0f / applyFirerate);
+        //    }
+        //    else
+        //    {
+        //        muzzleLight.SetActive(true);
+        //        StartCoroutine(Fire(hitTransform, mouseWorldPosition));
+        //        StartCoroutine(SpawnTrail(mouseWorldPosition));
+        //        CinemachineShake.Instance.ShakeCamera(camIntensity, 60.0f / applyFirerate);
+        //    }
+        //}
+    }
+
+    public void Reload()
+    {
+        reloading = true;
+        if (canReload)
         {
-            GameObject myPlayer = GameObject.Find("MyPlayer");
-            tpsController = myPlayer.GetComponent<MyTPSController>();
+            Managers.Sound.PlaySound2D("Reload");
+            canReload = false;
         }
+    }
+
+    //Animation Event Function
+    public void EndReload()
+    {
+        reloading = false;
+        canReload = true;
+        remainingAmmo = applyMaxAmmo;
     }
 
     IEnumerator Fire(Transform hitTransform, Vector3 mouseWorldPoint)

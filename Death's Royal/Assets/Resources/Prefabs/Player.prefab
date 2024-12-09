@@ -1432,7 +1432,7 @@ GameObject:
   - component: {fileID: 3087511371372868710}
   - component: {fileID: 7051577575795973785}
   - component: {fileID: 6705748369188527839}
-  - component: {fileID: 8799059842461600386}
+  - component: {fileID: 7793524447416060395}
   m_Layer: 9
   m_Name: Player
   m_TagString: Player
@@ -1748,7 +1748,7 @@ MonoBehaviour:
   - m_Rig: {fileID: 671542651712374034}
     m_Active: 1
   m_Effectors: []
---- !u!114 &8799059842461600386
+--- !u!114 &7793524447416060395
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -6787,7 +6787,7 @@ MonoBehaviour:
   muzzleLight: {fileID: 3556165203291194431}
   spawnBulletPosition: {fileID: 1703111937635170542}
   BulletTrail: {fileID: 136368701168757668, guid: 63fc6df607fed324896625f0557289b4, type: 3}
-  GunType: 2
+  gunType: 0
   Firerate: 350
   applyFirerate: 0
   maxAmmo: 5
@@ -6910,7 +6910,7 @@ MonoBehaviour:
   muzzleLight: {fileID: 4483865031893497097}
   spawnBulletPosition: {fileID: 2287821160505959355}
   BulletTrail: {fileID: 136368701168757668, guid: 63fc6df607fed324896625f0557289b4, type: 3}
-  GunType: 0
+  gunType: 0
   Firerate: 700
   applyFirerate: 0
   maxAmmo: 30
@@ -7028,7 +7028,7 @@ MonoBehaviour:
   muzzleLight: {fileID: 596692998615461691}
   spawnBulletPosition: {fileID: 6570928772275564632}
   BulletTrail: {fileID: 136368701168757668, guid: 63fc6df607fed324896625f0557289b4, type: 3}
-  GunType: 1
+  gunType: 0
   Firerate: 800
   applyFirerate: 0
   maxAmmo: 30

@@ -13,8 +13,12 @@ enum MsgId {
   S_MOVE = 5;
   C_AIM = 6;
   S_AIM = 7;
-  C_CHAT = 8;
-  S_CHAT = 9;
+  C_RELOAD = 8;
+  S_RELOAD = 9;
+  C_WEAPONCHANGE = 10;
+  S_WEAPONCHANGE = 11;
+  C_CHAT = 12;
+  S_CHAT = 13;
 }
 
 enum GunType { AR = 0; SG = 1; SMG = 2; END = 3; }
@@ -53,6 +57,24 @@ message S_Aim{
 	int32 playerID = 1;
 	bool isAim = 2;
 	PVector3 pos = 3;
+}
+
+message C_Weaponchange{
+	GunType gunType = 1;
+}
+
+message S_Weaponchange{
+	int32 playerID = 1;
+	GunType gunType = 2;
+}
+
+message C_Reload{
+	bool isReload = 1;
+}
+
+message S_Reload{
+	int32 playerID = 1;
+	bool isReload = 2;
 }
 
 message C_Chat {

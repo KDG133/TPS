@@ -34,6 +34,10 @@ class PacketManager
 		_handler.Add((ushort)MsgId.SMove, PacketHandler.S_MoveHandler);		
 		_onRecv.Add((ushort)MsgId.SAim, MakePacket<S_Aim>);
 		_handler.Add((ushort)MsgId.SAim, PacketHandler.S_AimHandler);		
+		_onRecv.Add((ushort)MsgId.SReload, MakePacket<S_Reload>);
+		_handler.Add((ushort)MsgId.SReload, PacketHandler.S_ReloadHandler);		
+		_onRecv.Add((ushort)MsgId.SWeaponchange, MakePacket<S_Weaponchange>);
+		_handler.Add((ushort)MsgId.SWeaponchange, PacketHandler.S_WeaponchangeHandler);		
 		_onRecv.Add((ushort)MsgId.SChat, MakePacket<S_Chat>);
 		_handler.Add((ushort)MsgId.SChat, PacketHandler.S_ChatHandler);
 	}

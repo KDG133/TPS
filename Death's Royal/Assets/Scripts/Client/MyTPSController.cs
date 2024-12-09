@@ -13,6 +13,7 @@ public class MyTPSController : ThirdPersonShooterController
     {
         starterAssetsInputs = GetComponent<StarterAssetsInputs>();
         thirdPersonController = GetComponent<MyTPController>();
+        weaponChanger = GetComponent<MyWeaponChanger>();
         animator = GetComponent<Animator>();
         Crosshair = GameObject.Find("PlayerCanvas").transform.Find("Crosshair").gameObject;
         aimVirtualCamera = GameObject.Find("PlayerAimCamera").GetComponent<CinemachineVirtualCamera>();
@@ -50,7 +51,7 @@ public class MyTPSController : ThirdPersonShooterController
         if (starterAssetsInputs.aim)
         {
             aimVirtualCamera.gameObject.SetActive(true);
-            WeaponManager.Instance.isAiming = true;
+            weaponChanger.isAiming = true;
             Crosshair.SetActive(true);
             aimRigWeight = 1f;
             thirdPersonController.SetSensitivity(aimSensitivity);
@@ -70,7 +71,7 @@ public class MyTPSController : ThirdPersonShooterController
         else
         {
             aimVirtualCamera.gameObject.SetActive(false);
-            WeaponManager.Instance.isAiming = false;
+            weaponChanger.isAiming = false;
             aimRigWeight = 0f;
             Crosshair.SetActive(false);
             thirdPersonController.SetSensitivity(normalSensitivity);
@@ -85,19 +86,20 @@ public class MyTPSController : ThirdPersonShooterController
     {
         if (starterAssetsInputs.aim && starterAssetsInputs.shoot)
         {
-            WeaponManager.Instance.CurrentFirearm.Shoot();
+            weaponChanger.CurrentFirearm.Shoot();
         }
     }
 
     private void Reload()
     {
-        bool checkReload = WeaponManager.Instance.CurrentFirearm.MaxAmmo > WeaponManager.Instance.CurrentFirearm.RemainingAmmo;
+        bool checkReload = weaponChanger.CurrentFirearm.MaxAmmo > weaponChanger.CurrentFirearm.RemainingAmmo;
 
         animator.SetFloat("ReloadSpeed", reloadSpeed + (reloadPlusRatio * Managers.Upgrade.reloadPoint));
-        if (starterAssetsInputs.reload && checkReload && !WeaponManager.Instance.CurrentFirearm.Reloading)
+        if (starterAssetsInputs.reload && checkReload && !weaponChanger.CurrentFirearm.Reloading)
         {
             animator.SetTrigger("Reload");
-            WeaponManager.Instance.CurrentFirearm.Reload();
+            weaponChanger.CurrentFirearm.Reload();
+            SendReloadState();
         }
     }
     #endregion
@@ -123,5 +125,12 @@ public class MyTPSController : ThirdPersonShooterController
         aimPacket.Pos.Y = _aimSpot.position.y;
         aimPacket.Pos.Z = _aimSpot.position.z;
         Managers.Network.Send(aimPacket);
+    }
+
+    private void SendReloadState()
+    {
+        C_Reload reloadPacket = new C_Reload();
+        reloadPacket.IsReload = starterAssetsInputs.reload;
+        Managers.Network.Send(reloadPacket);
     }
 }
