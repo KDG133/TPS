@@ -147,7 +147,6 @@ namespace StarterAssets
         private void Start()
         {
             _hasAnimator = TryGetComponent(out _animator);
-            transform.position = new Vector3(-41f, 0f, 28f);
             transform.rotation = Quaternion.Euler(new Vector3(0f, -90f, 0f));
             AssignAnimationIDs();
         }

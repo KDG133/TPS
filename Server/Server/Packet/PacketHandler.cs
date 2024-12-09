@@ -21,20 +21,15 @@ class PacketHandler
         C_Move movePacket = packet as C_Move;
         ClientSession clientSession = session as ClientSession;
 
-        if (clientSession.MyPlayer == null)
+        Player player = clientSession.MyPlayer;
+        if (player == null)
             return;
-        if(clientSession.MyPlayer.Room == null) 
+
+        GameRoom room = player.Room;
+        if(room == null) 
             return;
 
-        //TODO : 검증
-
-        //서버에서 좌표 이동
-        //다른 플레이어한테 알려준다
-        S_Move resMovePacket = new S_Move();
-        resMovePacket.PlayerID = clientSession.MyPlayer.Info.PlayerID;
-        resMovePacket.PosInfo = movePacket.PosInfo;
-
-        clientSession.MyPlayer.Room.Broadcast(resMovePacket);
+        room.HandleMove(player, movePacket);
     }
 
     public static void C_AimHandler(PacketSession session, IMessage packet)
@@ -42,17 +37,15 @@ class PacketHandler
         C_Aim AimPacket = packet as C_Aim;
         ClientSession clientSession = session as ClientSession;
 
-        if (clientSession.MyPlayer == null)
-            return;
-        if (clientSession.MyPlayer.Room == null)
+        Player player = clientSession.MyPlayer;
+        if (player == null)
             return;
 
-        S_Aim resAimPacket = new S_Aim();
-        resAimPacket.PlayerID = clientSession.MyPlayer.Info.PlayerID;
-        resAimPacket.IsAim = AimPacket.IsAim;
-        resAimPacket.Pos = AimPacket.Pos;
+        GameRoom room = player.Room;
+        if (room == null)
+            return;
 
-        clientSession.MyPlayer.Room.Broadcast(resAimPacket);
+        room.HandleAim(player, AimPacket);
     }
 
     public static void C_WeaponchangeHandler(PacketSession session, IMessage packet)
@@ -60,16 +53,15 @@ class PacketHandler
         C_Weaponchange WeaponchangePacket = packet as C_Weaponchange;
         ClientSession clientSession = session as ClientSession;
 
-        if (clientSession.MyPlayer == null)
-            return;
-        if (clientSession.MyPlayer.Room == null)
+        Player player = clientSession.MyPlayer;
+        if (player == null)
             return;
 
-        S_Weaponchange redWeaponchangePacket = new S_Weaponchange();
-        redWeaponchangePacket.PlayerID = clientSession.MyPlayer.Info.PlayerID;
-        redWeaponchangePacket.GunType = WeaponchangePacket.GunType;
+        GameRoom room = player.Room;
+        if (room == null)
+            return;
 
-        clientSession.MyPlayer.Room.Broadcast(redWeaponchangePacket);
+        room.HandleWeaponchange(player, WeaponchangePacket);
     }
 
     public static void C_ReloadHandler(PacketSession session, IMessage packet)
@@ -77,15 +69,14 @@ class PacketHandler
         C_Reload reloadPacket = packet as C_Reload;
         ClientSession clientSession = session as ClientSession;
 
-        if (clientSession.MyPlayer == null)
-            return;
-        if (clientSession.MyPlayer.Room == null)
+        Player player = clientSession.MyPlayer;
+        if (player == null)
             return;
 
-        S_Reload redReloadPacket = new S_Reload();
-        redReloadPacket.PlayerID = clientSession.MyPlayer.Info.PlayerID;
-        redReloadPacket.IsReload = reloadPacket.IsReload;
+        GameRoom room = player.Room;
+        if (room == null)
+            return;
 
-        clientSession.MyPlayer.Room.Broadcast(redReloadPacket);
+        room.HandleReload(player, reloadPacket);
     }
 }

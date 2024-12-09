@@ -24,8 +24,12 @@ public class ObjectManager
 			MyPlayer = go.GetComponent<MyTPController>();
 			go.GetComponent<MyTPSController>().enabled = true;
 			MyPlayer.Id = info.PlayerID;
-			MyPlayer.transform.position = new Vector3
-				(info.PosInfo.Pos.X, info.PosInfo.Pos.Y, info.PosInfo.Pos.Z);
+            Vector2 randomVec = new Vector2(Random.Range(-3f, 3f), Random.Range(-3f, 3f));
+            MyPlayer.transform.position = new Vector3
+				(info.PosInfo.Pos.X + randomVec.x,
+				info.PosInfo.Pos.Y,
+				info.PosInfo.Pos.Z + randomVec.y);
+			SyncPos(MyPlayer.transform);
         }
 		else
 		{
@@ -41,13 +45,23 @@ public class ObjectManager
 				(info.PosInfo.Pos.X + randomVec.x,
                 info.PosInfo.Pos.Y,
                 info.PosInfo.Pos.Z + randomVec.y);
+			SyncPos(MyPlayer.transform);
         }
 	}
 
-	//public void Add(int id,GameObject go)
-	//{
-	//	_objects.Add(id, go);
-	//}
+	private void SyncPos(Transform targerTrans)
+	{
+        C_Move movePacket = new C_Move()
+        {
+            PosInfo = new PositionInfo() { Pos = new PVector3() }
+        };
+        movePacket.PosInfo.Pos.X = targerTrans.position.x;
+        movePacket.PosInfo.Pos.Y = targerTrans.position.y;
+        movePacket.PosInfo.Pos.Z = targerTrans.position.z;
+        movePacket.PosInfo.MoveDir = targerTrans.rotation.eulerAngles.y;
+        movePacket.PosInfo.MoveSpeed = 0;
+        Managers.Network.Send(movePacket);
+    }
 
 	public void Remove(int id)
 	{

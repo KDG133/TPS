@@ -83,6 +83,74 @@ namespace Server
             }
         }
 
+        public void HandleMove(Player player, C_Move movePacket)
+        {
+            if (player == null)
+                return;
+
+            lock (_lock)
+            {
+                //TODO : 검증
+
+                //서버에서 좌표 이동
+                PlayerInfo info = player.Info;
+                info.PosInfo = movePacket.PosInfo;
+
+                //다른 플레이어한테 알려준다
+                S_Move resMovePacket = new S_Move();
+                resMovePacket.PlayerID = player.Info.PlayerID;
+                resMovePacket.PosInfo = movePacket.PosInfo;
+
+                Broadcast(resMovePacket);
+            }
+        }
+
+        public void HandleAim(Player player, C_Aim aimPacket)
+        {
+            if (player == null)
+                return;
+
+            lock (_lock)
+            {
+                S_Aim resAimPacket = new S_Aim();
+                resAimPacket.PlayerID = player.Info.PlayerID;
+                resAimPacket.IsAim = aimPacket.IsAim;
+                resAimPacket.Pos = aimPacket.Pos;
+
+                Broadcast(resAimPacket);
+            }
+        }
+
+        public void HandleWeaponchange(Player player, C_Weaponchange weaponchangePacket)
+        {
+            if (player == null)
+                return;
+
+            lock (_lock)
+            {
+                S_Weaponchange redWeaponchangePacket = new S_Weaponchange();
+                redWeaponchangePacket.PlayerID = player.Info.PlayerID;
+                redWeaponchangePacket.GunType = weaponchangePacket.GunType;
+
+                Broadcast(redWeaponchangePacket);
+            }
+        }
+
+        public void HandleReload(Player player, C_Reload reloadPacket)
+        {
+            if (player == null)
+                return;
+
+            lock (_lock)
+            {
+                S_Reload redReloadPacket = new S_Reload();
+                redReloadPacket.PlayerID = player.Info.PlayerID;
+                redReloadPacket.IsReload = reloadPacket.IsReload;
+
+                Broadcast(redReloadPacket);
+            }
+        }
+
         public void Broadcast(IMessage packet)
         {
             lock ( _lock)
