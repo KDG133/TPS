@@ -111,4 +111,19 @@ class PacketHandler
 
         tpsc.playerReload = reloadPacket.IsReload;
     }
+
+    public static void S_ShotHandler(PacketSession session, IMessage packet)
+    {
+        S_Shot shotPacket = packet as S_Shot;
+
+        GameObject go = Managers.Object.FindById(shotPacket.PlayerID);
+        if (go == null)
+            return;
+
+        ThirdPersonShooterController tpsc = go.GetComponent<ThirdPersonShooterController>();
+        if (tpsc == null)
+            return;
+
+        tpsc.playerShot = shotPacket.IsShot;
+    }
 }

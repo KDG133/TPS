@@ -1,4 +1,5 @@
 using Google.Protobuf.Protocol;
+using StarterAssets;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -56,24 +57,6 @@ public class MyFirearms : Firearms
             }
         }
     }
-
-    //public void Reload()
-    //{
-    //    reloading = true;
-    //    if (canReload)
-    //    {
-    //        Managers.Sound.PlaySound2D("Reload");
-    //        canReload = false;
-    //    }
-    //}
-
-    ////Animation Event Function
-    //public void EndReload()
-    //{
-    //    reloading = false;
-    //    canReload = true;
-    //    remainingAmmo = applyMaxAmmo;
-    //}
 
     void FindMyPlayer()
     {

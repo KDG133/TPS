@@ -84,9 +84,16 @@ public class MyTPSController : ThirdPersonShooterController
 
     private void Shoot()
     {
-        if (starterAssetsInputs.aim && starterAssetsInputs.shoot)
-        {
+        if (starterAssetsInputs.shoot)
             weaponChanger.CurrentFirearm.Shoot();
+        //SendShotState();
+
+        if (pervShoot != starterAssetsInputs.shoot)
+        {
+            pervShoot = starterAssetsInputs.shoot;
+
+            if (weaponChanger.CurrentFirearm.RemainingAmmo > 0)
+                SendShotState();
         }
     }
 
@@ -132,5 +139,12 @@ public class MyTPSController : ThirdPersonShooterController
         C_Reload reloadPacket = new C_Reload();
         reloadPacket.IsReload = starterAssetsInputs.reload;
         Managers.Network.Send(reloadPacket);
+    }
+
+    private void SendShotState()
+    {
+        C_Shot shotPacket = new C_Shot();
+        shotPacket.IsShot = starterAssetsInputs.shoot;
+        Managers.Network.Send(shotPacket);
     }
 }

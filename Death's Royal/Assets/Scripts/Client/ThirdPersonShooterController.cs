@@ -8,7 +8,7 @@ using UnityEngine.UIElements;
 using UnityEngine.Animations.Rigging;
 using Unity.VisualScripting;
 
-public class ThirdPersonShooterController : MonoBehaviour
+public class ThirdPersonShooterController : ObjectController
 {
     public float Health = 100f;
     public float MaxHealth = 100f;
@@ -32,6 +32,8 @@ public class ThirdPersonShooterController : MonoBehaviour
     protected float reloadPlusRatio = 0.25f;
     protected bool isAim = false;
     protected bool isReload = false;
+    protected bool isShot = false;
+    protected bool pervShoot = false;
 
     public bool playerAim
     {
@@ -43,6 +45,12 @@ public class ThirdPersonShooterController : MonoBehaviour
     {
         get { return isReload; }
         set { isReload = value; }
+    }
+
+    public bool playerShot
+    {
+        get { return isShot; }
+        set { isShot = value; }
     }
 
     public Transform aimSpot
@@ -70,10 +78,16 @@ public class ThirdPersonShooterController : MonoBehaviour
 
     private void Update()
     {
-        //Raycast();
+        Raycast();
         Aim();
-        //Shoot();
+        Shoot();
         Reload();
+    }
+
+    private void Raycast()
+    {
+        mouseWorldPosition = _aimSpot.position;
+        //hitTransform = raycastHit.transform;
     }
 
     private void Aim()
@@ -91,13 +105,13 @@ public class ThirdPersonShooterController : MonoBehaviour
         aimRig.weight = Mathf.Lerp(aimRig.weight, aimRigWeight, Time.deltaTime * 20f);
     }
 
-    //private void Shoot()
-    //{
-    //    if (starterAssetsInputs.aim && starterAssetsInputs.shoot)
-    //    {
-    //        WeaponManager.Instance.CurrentFirearm.Shoot();
-    //    }
-    //}
+    private void Shoot()
+    {
+        if (isShot)
+        {
+            weaponChanger.CurrentFirearm.Shoot();
+        }
+    }
 
     private void Reload()
     {

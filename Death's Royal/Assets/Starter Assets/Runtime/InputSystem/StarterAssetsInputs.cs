@@ -56,6 +56,8 @@ namespace StarterAssets
         {
 			if(aim)
 				ShootInput(value.isPressed);
+			else
+                ShootInput(false);
         }
 
         public void OnReload(InputValue value)

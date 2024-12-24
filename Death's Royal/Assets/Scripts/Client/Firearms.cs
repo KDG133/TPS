@@ -2,6 +2,7 @@ using Google.Protobuf.Protocol;
 using StarterAssets;
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Claims;
 using UnityEngine;
 
 public class Firearms : MonoBehaviour
@@ -34,14 +35,17 @@ public class Firearms : MonoBehaviour
     protected Vector3 mouseWorldPosition = Vector3.zero;
     protected Transform hitTransform = null;
 
+    float testtime = 0;
     public float MaxAmmo
     {
         get { return applyMaxAmmo; }
     }
+
     public float RemainingAmmo
     {
         get { return remainingAmmo; }
     }
+
     public bool Reloading
     {
         get { return reloading; }
@@ -58,45 +62,62 @@ public class Firearms : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //FindMyPlayer();
-        //applyMaxAmmo = (int)(maxAmmo * (1.0f + (Managers.Upgrade.magazinePoint * AmmoRatio)));
-        //applyFirerate = Firerate * (1.0f + (Managers.Upgrade.fireRatePoint * firerateRatio));
-        //hitTransform = tpsController.playerHitTransform;
-        //mouseWorldPosition = tpsController.playerMouseWorldPosition;
+        applyMaxAmmo = (int)(maxAmmo * (1.0f + (Managers.Upgrade.magazinePoint * AmmoRatio)));
+        applyFirerate = Firerate * (1.0f + (Managers.Upgrade.fireRatePoint * firerateRatio));
+        mouseWorldPosition =
+            transform.root.GetComponent<ThirdPersonShooterController>().aimSpot.position;
+        //NextFire();
+    }
+
+    void NextFire()
+    {
+        float timeToNextFire = 60 / applyFirerate;
+
+        if (!canFire)
+        {
+            testtime += Time.deltaTime;
+            if (testtime >= timeToNextFire)
+            {
+                canFire = true;
+                muzzleLight.SetActive(false);
+            }
+        }
+        else
+            testtime = 0;
     }
 
     public virtual void Shoot()
     {
-        //if (canFire && remainingAmmo > 0 && !reloading)
-        //{
-        //    switch (gunType)
-        //    {
-        //        case GunType.Ar:
-        //            Managers.Sound.PlaySound2D("ar");
-        //            Managers.Sound.PlaySound3D("ar", gameObject.transform);
-        //            break;
-        //        case GunType.Sg:
-        //            Managers.Sound.PlaySound2D("shotgun");
-        //            break;
-        //        case GunType.Smg:
-        //            Managers.Sound.PlaySound2D("mp5");
-        //            break;
-        //    }
+        if(canFire)
+        {
+            switch (gunType)
+            {
+                case GunType.Ar:
+                    Managers.Sound.PlaySound2D("ar");
+                    //Managers.Sound.PlaySound3D("ar", gameObject.transform);
+                    break;
+                case GunType.Sg:
+                    Managers.Sound.PlaySound2D("shotgun");
+                    break;
+                case GunType.Smg:
+                    Managers.Sound.PlaySound2D("mp5");
+                    break;
+            }
 
-        //    if (gunType == GunType.Sg)
-        //    {
-        //        muzzleLight.SetActive(true);
-        //        StartCoroutine(ShotGunFire(mouseWorldPosition));
-        //        CinemachineShake.Instance.ShakeCamera(camIntensity, 60.0f / applyFirerate);
-        //    }
-        //    else
-        //    {
-        //        muzzleLight.SetActive(true);
-        //        StartCoroutine(Fire(hitTransform, mouseWorldPosition));
-        //        StartCoroutine(SpawnTrail(mouseWorldPosition));
-        //        CinemachineShake.Instance.ShakeCamera(camIntensity, 60.0f / applyFirerate);
-        //    }
-        //}
+            if (gunType == GunType.Sg)
+            {
+                muzzleLight.SetActive(true);
+                StartCoroutine(ShotGunFire(mouseWorldPosition));
+                CinemachineShake.Instance.ShakeCamera(camIntensity, 60.0f / applyFirerate);
+            }
+            else
+            {
+                muzzleLight.SetActive(true);
+                StartCoroutine(Fire(hitTransform, mouseWorldPosition));
+                StartCoroutine(SpawnTrail(mouseWorldPosition));
+                CinemachineShake.Instance.ShakeCamera(camIntensity, 60.0f / applyFirerate);
+            }
+        }      
     }
 
     public void Reload()
@@ -137,7 +158,15 @@ public class Firearms : MonoBehaviour
                 effectHit.transform.position = mouseWorldPoint;
             }
         }
+
+        float timeToNextFire = 60 / applyFirerate;
         StartCoroutine(FirerateHandler());
+
+        //if(testtime >= timeToNextFire)
+        //{
+        //    canFire = true;
+        //    muzzleLight.SetActive(false);
+        //}
         yield return null;
     }
 
@@ -170,7 +199,7 @@ public class Firearms : MonoBehaviour
                 }
             }
             StartCoroutine(SpawnTrail(hit.point));
-        }       
+        }
 
         StartCoroutine(FirerateHandler());
         yield return null;
@@ -201,6 +230,7 @@ public class Firearms : MonoBehaviour
             yield return null;
         }
 
+        //Managers.Pool.
         BulletManager.Instance.insertQueue(trail);
     }
 }

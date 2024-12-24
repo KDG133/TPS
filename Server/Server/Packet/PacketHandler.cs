@@ -79,4 +79,20 @@ class PacketHandler
 
         room.HandleReload(player, reloadPacket);
     }
+
+    public static void C_ShotHandler(PacketSession session, IMessage packet)
+    {
+        C_Shot shotPacket = packet as C_Shot;
+        ClientSession clientSession = session as ClientSession;
+
+        Player player = clientSession.MyPlayer;
+        if (player == null)
+            return;
+
+        GameRoom room = player.Room;
+        if (room == null)
+            return;
+
+        room.HandleShot(player, shotPacket);
+    }
 }

@@ -83,6 +83,7 @@ namespace Server
             }
         }
 
+        #region Handle
         public void HandleMove(Player player, C_Move movePacket)
         {
             if (player == null)
@@ -150,6 +151,22 @@ namespace Server
                 Broadcast(redReloadPacket);
             }
         }
+
+        public void HandleShot(Player player, C_Shot shotPacket)
+        {
+            if (player == null)
+                return;
+
+            lock (_lock)
+            {
+                S_Shot resShotPacket = new S_Shot();
+                resShotPacket.PlayerID = player.Info.PlayerID;
+                resShotPacket.IsShot = shotPacket.IsShot;
+
+                Broadcast(resShotPacket);
+            }
+        }
+        #endregion
 
         public void Broadcast(IMessage packet)
         {
